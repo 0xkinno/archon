@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: archon-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: GCP_PROJECT_ID
+        value: archon-ece25
+      - key: GCP_LOCATION
+        value: us-central1
+      - key: GEMINI_MODEL
+        value: gemini-flash-lite-latest
+      - key: FIRESTORE_DATABASE
+        value: (default)
+      - key: USE_MEMORY_BANK
+        value: "false"
+      - key: USE_AGENT_RUNTIME
+        value: "true"
+      - key: USE_MODEL_ARMOR
+        value: "true"
+      - key: APPROVAL_THRESHOLD
+        value: "10000.0"
+      - key: RATE_LIMIT_TOOL_CALLS
+        value: "20"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GOOGLE_APPLICATION_CREDENTIALS_JSON
+        sync: false

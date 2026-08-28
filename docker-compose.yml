@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: archon-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID:-archon-enterprise-fleet}
+      - USE_MEMORY_BANK=${USE_MEMORY_BANK:-true}
+      - USE_MODEL_ARMOR=${USE_MODEL_ARMOR:-true}
+      - APPROVAL_THRESHOLD=${APPROVAL_THRESHOLD:-10000}
+      - JWT_SECRET=${JWT_SECRET:-archon_super_secure_enterprise_key_2026}
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: archon-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_WS_URL=ws://localhost:8000/ws
+    depends_on:
+      - backend
+    restart: unless-stopped

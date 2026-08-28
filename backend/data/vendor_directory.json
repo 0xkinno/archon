@@ -1,0 +1,198 @@
+[
+  {
+    "vendor_id": "VND-001",
+    "name": "Cascade Industrial Plumbing & Mechanical",
+    "specialties": ["plumbing", "water", "pipe_isolation", "sewer", "chilled_water"],
+    "avg_response_time_hours": 1.2,
+    "reliability_score": 96.5,
+    "contract_terms": {
+      "status": "ACTIVE_MASTER_AGREEMENT",
+      "standard_rate": 140.0,
+      "emergency_rate": 220.0,
+      "sla_hours": 2.0,
+      "warranty_days": 90
+    },
+    "contact_info": {
+      "dispatch_phone": "555-019-2831",
+      "emergency_hotline": "555-019-9901",
+      "email": "dispatch@cascadeindustrial.com",
+      "account_manager": "Sarah Jenkins"
+    },
+    "incidents_served": ["INC-2025-081", "INC-2025-114", "INC-2026-003"],
+    "notes": [
+      "Top-tier contractor for high-pressure water main breaches and sub-basement sump overhauls.",
+      "Carries heavy dewatering submersibles and acoustic leak detection rigs."
+    ]
+  },
+  {
+    "vendor_id": "VND-002",
+    "name": "Sparks High-Voltage & Electrical Engineering",
+    "specialties": ["electrical", "power", "switchgear", "generators", "panels"],
+    "avg_response_time_hours": 1.8,
+    "reliability_score": 94.0,
+    "contract_terms": {
+      "status": "ACTIVE_MASTER_AGREEMENT",
+      "standard_rate": 160.0,
+      "emergency_rate": 250.0,
+      "sla_hours": 2.5,
+      "warranty_days": 180
+    },
+    "contact_info": {
+      "dispatch_phone": "555-018-4421",
+      "emergency_hotline": "555-018-9911",
+      "email": "emergency@sparkshv.com",
+      "account_manager": "David Chen"
+    },
+    "incidents_served": ["INC-2025-042", "INC-2025-099", "INC-2026-012"],
+    "notes": [
+      "Certified for 13.8kV primary substations and hospital emergency generator transfer switches.",
+      "Identified moisture infiltration at Building F Panel B3 during previous shift inspection."
+    ]
+  },
+  {
+    "vendor_id": "VND-003",
+    "name": "Apex Precision HVAC & Climate Systems",
+    "specialties": ["hvac", "chillers", "cooling_towers", "boilers", "climate_control"],
+    "avg_response_time_hours": 1.5,
+    "reliability_score": 97.2,
+    "contract_terms": {
+      "status": "ACTIVE_MASTER_AGREEMENT",
+      "standard_rate": 155.0,
+      "emergency_rate": 240.0,
+      "sla_hours": 2.0,
+      "warranty_days": 120
+    },
+    "contact_info": {
+      "dispatch_phone": "555-017-7733",
+      "emergency_hotline": "555-017-9944",
+      "email": "dispatch@apexhvac.com",
+      "account_manager": "Elena Rostova"
+    },
+    "incidents_served": ["INC-2025-019", "INC-2025-103", "INC-2026-007"],
+    "notes": [
+      "Preferred emergency HVAC provider for hospital neonatal unit and research lab cleanrooms.",
+      "Carries mobile 50-ton temporary cooling units on flatbed standby."
+    ]
+  },
+  {
+    "vendor_id": "VND-004",
+    "name": "Northwind HVAC Partners",
+    "specialties": ["hvac", "air_quality", "ventilation"],
+    "avg_response_time_hours": 4.5,
+    "reliability_score": 71.0,
+    "contract_terms": {
+      "status": "PROBATIONARY",
+      "standard_rate": 110.0,
+      "emergency_rate": 180.0,
+      "sla_hours": 6.0,
+      "warranty_days": 30
+    },
+    "contact_info": {
+      "dispatch_phone": "555-013-4400",
+      "emergency_hotline": "555-013-4401",
+      "email": "service@northwindpartners.com",
+      "account_manager": "John Smith"
+    },
+    "incidents_served": ["INC-2024-088"],
+    "notes": [
+      "Flagged for repeated delays and billing discrepancies; currently subject to heightened Model Armor review."
+    ]
+  },
+  {
+    "vendor_id": "VND-005",
+    "name": "Atlas Vertical Mobility & Elevator Services",
+    "specialties": ["elevators", "escalators", "lift_safety", "mechanical_lifts"],
+    "avg_response_time_hours": 3.8,
+    "reliability_score": 76.5,
+    "contract_terms": {
+      "status": "UNDER_REVIEW",
+      "standard_rate": 175.0,
+      "emergency_rate": 280.0,
+      "sla_hours": 3.0,
+      "warranty_days": 60
+    },
+    "contact_info": {
+      "dispatch_phone": "555-016-8822",
+      "emergency_hotline": "555-016-9900",
+      "email": "fleet@atlaselevator.com",
+      "account_manager": "Marcus Vance"
+    },
+    "incidents_served": ["INC-2025-061", "INC-2025-110"],
+    "notes": [
+      "Contractor experienced 3 maintenance no-shows in current quarter at Building A.",
+      "Subject to financial penalty clauses under Master Services Agreement section 4.2."
+    ]
+  },
+  {
+    "vendor_id": "VND-006",
+    "name": "Guardian Fire Suppression & Life Safety",
+    "specialties": ["fire", "fire_suppression", "alarms", "sprinklers", "smoke_evac"],
+    "avg_response_time_hours": 1.0,
+    "reliability_score": 98.8,
+    "contract_terms": {
+      "status": "ACTIVE_MASTER_AGREEMENT",
+      "standard_rate": 180.0,
+      "emergency_rate": 290.0,
+      "sla_hours": 1.5,
+      "warranty_days": 365
+    },
+    "contact_info": {
+      "dispatch_phone": "555-015-3311",
+      "emergency_hotline": "555-015-9988",
+      "email": "emergency@guardianlifesafety.com",
+      "account_manager": "Patricia Vance"
+    },
+    "incidents_served": ["INC-2025-012", "INC-2025-077", "INC-2026-002"],
+    "notes": [
+      "State-certified fire marshal liaisons; handles NFPA 13/25 inspections and emergency hydro-testing."
+    ]
+  },
+  {
+    "vendor_id": "VND-007",
+    "name": "BioClear Hazmat & Environmental Remediation",
+    "specialties": ["hazmat", "chemical_spill", "biological_cleanup", "decontamination"],
+    "avg_response_time_hours": 1.9,
+    "reliability_score": 95.0,
+    "contract_terms": {
+      "status": "ACTIVE_PREFERRED",
+      "standard_rate": 220.0,
+      "emergency_rate": 350.0,
+      "sla_hours": 2.0,
+      "warranty_days": 60
+    },
+    "contact_info": {
+      "dispatch_phone": "555-012-9900",
+      "emergency_hotline": "555-012-9911",
+      "email": "spillteam@bioclearhazmat.com",
+      "account_manager": "Dr. Aris Thorne"
+    },
+    "incidents_served": ["INC-2025-034", "INC-2025-089"],
+    "notes": [
+      "Certified for Biosafety Level 3 and Class 8 chemical containment across campus research wings."
+    ]
+  },
+  {
+    "vendor_id": "VND-008",
+    "name": "Fortress Integrated Physical Security",
+    "specialties": ["security", "access_control", "cctv", "lockdown_hardware"],
+    "avg_response_time_hours": 1.4,
+    "reliability_score": 93.5,
+    "contract_terms": {
+      "status": "ACTIVE_MASTER_AGREEMENT",
+      "standard_rate": 130.0,
+      "emergency_rate": 200.0,
+      "sla_hours": 2.0,
+      "warranty_days": 90
+    },
+    "contact_info": {
+      "dispatch_phone": "555-011-6655",
+      "emergency_hotline": "555-011-9922",
+      "email": "control@fortresssec.com",
+      "account_manager": "Robert Briggs"
+    },
+    "incidents_served": ["INC-2025-055", "INC-2026-004"],
+    "notes": [
+      "Manages automated turnstiles, optical sensors, and campus perimeter magnetic lock overrides."
+    ]
+  }
+]

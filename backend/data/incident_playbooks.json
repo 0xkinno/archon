@@ -1,0 +1,394 @@
+[
+  {
+    "playbook_id": "water_main_break",
+    "name": "Water Main Breach & Flooding Protocol",
+    "incident_type": "water",
+    "description": "Orchestrates isolation of pressurized water mains, sub-basement flood mitigation, electrical hazard de-energization, emergency plumbing dispatch, and occupant notification.",
+    "required_agents": [
+      "impact_assessor",
+      "vendor_coordinator",
+      "communications_officer",
+      "remediation_tracker",
+      "memory_curator"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "agent_id": "impact_assessor",
+        "action_name": "map_dependencies",
+        "description": "Trace water loop isolation valves and identify downstream dependent facilities (such as cooling loops or labs).",
+        "required": true
+      },
+      {
+        "step_number": 2,
+        "agent_id": "vendor_coordinator",
+        "action_name": "dispatch_vendor",
+        "description": "Search and dispatch emergency industrial plumbing contractor with high-volume submersible pump capability.",
+        "required": true
+      },
+      {
+        "step_number": 3,
+        "agent_id": "communications_officer",
+        "action_name": "route_by_severity",
+        "description": "Issue urgent flood and utility outage advisories to building facility managers and safety officers.",
+        "required": true
+      },
+      {
+        "step_number": 4,
+        "agent_id": "remediation_tracker",
+        "action_name": "create_task",
+        "description": "Open structural moisture remediation, dehumidification, and electrical safety sign-off work orders.",
+        "required": true
+      },
+      {
+        "step_number": 5,
+        "agent_id": "memory_curator",
+        "action_name": "store_lesson",
+        "description": "Record valve shutoff response times, water ingress points, and contractor efficiency into institutional memory.",
+        "required": true
+      }
+    ],
+    "estimated_duration_minutes": 180
+  },
+  {
+    "playbook_id": "hvac_failure_critical",
+    "name": "Critical Environment Climate Control Failure",
+    "incident_type": "hvac",
+    "description": "Emergency protocol for temperature excursions in sensitive environments like neonatal intensive care, research bio-banks, or server rooms.",
+    "required_agents": [
+      "impact_assessor",
+      "vendor_coordinator",
+      "communications_officer",
+      "remediation_tracker",
+      "memory_curator"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "agent_id": "impact_assessor",
+        "action_name": "query_building_systems",
+        "description": "Check current ambient vs setpoint temperatures across all hospital/lab zones and verify backup chillers.",
+        "required": true
+      },
+      {
+        "step_number": 2,
+        "agent_id": "communications_officer",
+        "action_name": "route_by_severity",
+        "description": "Immediate P1 notification to clinical charge nurses and biomedical engineering leadership.",
+        "required": true
+      },
+      {
+        "step_number": 3,
+        "agent_id": "vendor_coordinator",
+        "action_name": "dispatch_vendor",
+        "description": "Dispatch priority HVAC emergency crew with standby spot coolers and chiller bypass rigs.",
+        "required": true
+      },
+      {
+        "step_number": 4,
+        "agent_id": "remediation_tracker",
+        "action_name": "create_task",
+        "description": "Track hourly temperature recovery and chiller loop pressure equalization.",
+        "required": true
+      },
+      {
+        "step_number": 5,
+        "agent_id": "memory_curator",
+        "action_name": "store_lesson",
+        "description": "Log thermal gradient progression and chiller inter-tie lessons for future seasonal transitions.",
+        "required": true
+      }
+    ],
+    "estimated_duration_minutes": 120
+  },
+  {
+    "playbook_id": "power_outage",
+    "name": "Campus Electrical Substation Failure & Generator Transfer",
+    "incident_type": "electrical",
+    "description": "Manages primary switchgear trips, diesel turbine load pickup, elevator entrapment sweeps, and priority restoration.",
+    "required_agents": [
+      "impact_assessor",
+      "vendor_coordinator",
+      "communications_officer",
+      "remediation_tracker",
+      "memory_curator"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "agent_id": "impact_assessor",
+        "action_name": "map_dependencies",
+        "description": "Identify unpowered buildings, check generator fuel reserves, and query elevator occupancy status.",
+        "required": true
+      },
+      {
+        "step_number": 2,
+        "agent_id": "vendor_coordinator",
+        "action_name": "dispatch_vendor",
+        "description": "Dispatch high-voltage electrical engineering team for substation breaker diagnostics.",
+        "required": true
+      },
+      {
+        "step_number": 3,
+        "agent_id": "communications_officer",
+        "action_name": "route_by_severity",
+        "description": "Broadcast campus-wide power disruption bulletin and life-safety instructions.",
+        "required": true
+      },
+      {
+        "step_number": 4,
+        "agent_id": "remediation_tracker",
+        "action_name": "create_task",
+        "description": "Assign building marshals to perform physical sweeps of all elevator shafts.",
+        "required": true
+      },
+      {
+        "step_number": 5,
+        "agent_id": "memory_curator",
+        "action_name": "store_lesson",
+        "description": "Record electrical surge characteristics and emergency generator cutover timestamps.",
+        "required": true
+      }
+    ],
+    "estimated_duration_minutes": 240
+  },
+  {
+    "playbook_id": "fire_alarm",
+    "name": "Fire Alarm Activation & Evacuation Management",
+    "incident_type": "fire",
+    "description": "Rapid response to smoke/thermal detector trips, municipal dispatch verification, and occupant evacuation.",
+    "required_agents": [
+      "impact_assessor",
+      "compliance_inspector",
+      "communications_officer",
+      "remediation_tracker",
+      "memory_curator"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "agent_id": "impact_assessor",
+        "action_name": "check_occupancy",
+        "description": "Determine current headcount in affected building and confirm evacuation path clearance.",
+        "required": true
+      },
+      {
+        "step_number": 2,
+        "agent_id": "communications_officer",
+        "action_name": "route_by_severity",
+        "description": "Send immediate emergency mass notification to evacuate building to designated assembly zones.",
+        "required": true
+      },
+      {
+        "step_number": 3,
+        "agent_id": "compliance_inspector",
+        "action_name": "generate_compliance_doc",
+        "description": "Generate municipal Fire Incident Log and verify riser water pressure records for the fire marshal.",
+        "required": true
+      },
+      {
+        "step_number": 4,
+        "agent_id": "remediation_tracker",
+        "action_name": "create_task",
+        "description": "Ensure alarm panel reset and sprinkler head replacement by certified life safety technicians.",
+        "required": true
+      },
+      {
+        "step_number": 5,
+        "agent_id": "memory_curator",
+        "action_name": "store_lesson",
+        "description": "Document false alarm triggers or true ignition points and evacuation clearance duration.",
+        "required": true
+      }
+    ],
+    "estimated_duration_minutes": 90
+  },
+  {
+    "playbook_id": "vendor_no_show",
+    "name": "Contractor Default & Emergency Replacement Protocol",
+    "incident_type": "vendor",
+    "description": "Handles missed maintenance windows, updates vendor reliability metrics, penalizes SLA breaches, and re-routes work.",
+    "required_agents": [
+      "vendor_coordinator",
+      "compliance_inspector",
+      "remediation_tracker",
+      "memory_curator"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "agent_id": "vendor_coordinator",
+        "action_name": "check_vendor_history",
+        "description": "Review vendor contract SLA terms and count past no-show occurrences in the current quarter.",
+        "required": true
+      },
+      {
+        "step_number": 2,
+        "agent_id": "vendor_coordinator",
+        "action_name": "search_vendors",
+        "description": "Identify alternate rated contractor available for same-day emergency dispatch.",
+        "required": true
+      },
+      {
+        "step_number": 3,
+        "agent_id": "compliance_inspector",
+        "action_name": "flag_violations",
+        "description": "Flag contractual default and prepare formal SLA liquidated damages notice.",
+        "required": true
+      },
+      {
+        "step_number": 4,
+        "agent_id": "memory_curator",
+        "action_name": "update_vendor_scorecard",
+        "description": "Reduce vendor reliability score in Memory Bank and place on probationary dispatch status.",
+        "required": true
+      }
+    ],
+    "estimated_duration_minutes": 60
+  },
+  {
+    "playbook_id": "security_breach",
+    "name": "Unauthorized Access & Physical Security Breach",
+    "incident_type": "security",
+    "description": "Addresses forced entry, badge access anomalies in restricted research zones, and perimeter lockouts.",
+    "required_agents": [
+      "impact_assessor",
+      "vendor_coordinator",
+      "communications_officer",
+      "remediation_tracker",
+      "memory_curator"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "agent_id": "impact_assessor",
+        "action_name": "query_building_systems",
+        "description": "Lock down affected building magnetic doors and query access log sensor events.",
+        "required": true
+      },
+      {
+        "step_number": 2,
+        "agent_id": "communications_officer",
+        "action_name": "route_by_severity",
+        "description": "Alert campus police dispatch and building security supervisor.",
+        "required": true
+      },
+      {
+        "step_number": 3,
+        "agent_id": "vendor_coordinator",
+        "action_name": "dispatch_vendor",
+        "description": "Dispatch access control hardware specialist if physical hardware or turnstiles were compromised.",
+        "required": false
+      },
+      {
+        "step_number": 4,
+        "agent_id": "remediation_tracker",
+        "action_name": "create_task",
+        "description": "Conduct full badge audit and re-key compromised physical cores.",
+        "required": true
+      },
+      {
+        "step_number": 5,
+        "agent_id": "memory_curator",
+        "action_name": "store_lesson",
+        "description": "Record vulnerability vector and tailgating patterns in institutional memory.",
+        "required": true
+      }
+    ],
+    "estimated_duration_minutes": 90
+  },
+  {
+    "playbook_id": "elevator_entrapment",
+    "name": "Elevator Stoppage & Occupant Rescue Protocol",
+    "incident_type": "structural",
+    "description": "Immediate life-safety response to stalled vertical mobility cabs with entrapped occupants.",
+    "required_agents": [
+      "impact_assessor",
+      "vendor_coordinator",
+      "communications_officer",
+      "remediation_tracker",
+      "memory_curator"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "agent_id": "impact_assessor",
+        "action_name": "query_building_systems",
+        "description": "Determine exact shaft number, floor level, cab ventilation status, and occupant count.",
+        "required": true
+      },
+      {
+        "step_number": 2,
+        "agent_id": "vendor_coordinator",
+        "action_name": "dispatch_vendor",
+        "description": "Dispatch emergency elevator rescue technician under 1-hour priority SLA.",
+        "required": true
+      },
+      {
+        "step_number": 3,
+        "agent_id": "communications_officer",
+        "action_name": "route_by_severity",
+        "description": "Establish continuous two-way audio contact with trapped occupants and alert local fire rescue if needed.",
+        "required": true
+      },
+      {
+        "step_number": 4,
+        "agent_id": "remediation_tracker",
+        "action_name": "create_task",
+        "description": "Tag out elevator bank until mandatory state safety recertification is completed.",
+        "required": true
+      },
+      {
+        "step_number": 5,
+        "agent_id": "memory_curator",
+        "action_name": "store_lesson",
+        "description": "Record governor trip causes, rescue response time, and maintenance history.",
+        "required": true
+      }
+    ],
+    "estimated_duration_minutes": 60
+  },
+  {
+    "playbook_id": "inspection_preparation",
+    "name": "Regulatory Audit & Inspection Preparation",
+    "incident_type": "inspection",
+    "description": "Automates pre-audit document assembly, citation remediation verification, and pre-inspection physical walks.",
+    "required_agents": [
+      "compliance_inspector",
+      "impact_assessor",
+      "remediation_tracker",
+      "memory_curator"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "agent_id": "compliance_inspector",
+        "action_name": "check_inspection_schedule",
+        "description": "Retrieve audit requirements, scheduled agency dates, and past outstanding citations.",
+        "required": true
+      },
+      {
+        "step_number": 2,
+        "agent_id": "compliance_inspector",
+        "action_name": "generate_compliance_doc",
+        "description": "Compile digital compliance binder with testing logs and engineering sign-offs.",
+        "required": true
+      },
+      {
+        "step_number": 3,
+        "agent_id": "remediation_tracker",
+        "action_name": "create_task",
+        "description": "Assign pre-inspection walkthrough with facility supervisor to verify physical hazard clearance.",
+        "required": true
+      },
+      {
+        "step_number": 4,
+        "agent_id": "memory_curator",
+        "action_name": "search_precedent",
+        "description": "Query institutional memory for inspector-specific preferences and past audit pain points.",
+        "required": true
+      }
+    ],
+    "estimated_duration_minutes": 120
+  }
+]

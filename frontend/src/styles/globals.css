@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary: Deep command authority navy */
+  --archon-navy: #0A0F1E;
+  --archon-navy-light: #121A2E;
+  --archon-navy-mid: #1A2340;
+  
+  /* Accent: Command Amber / Gold */
+  --archon-amber: #F59E0B;
+  --archon-amber-light: #FCD34D;
+  --archon-amber-glow: rgba(245, 158, 11, 0.18);
+  
+  /* Severity Status Colors */
+  --archon-red: #EF4444;       /* P1 Critical */
+  --archon-orange: #F97316;    /* P2 High */
+  --archon-yellow: #EAB308;    /* P3 Medium */
+  --archon-green: #22C55E;     /* P4 Low / Resolved */
+  --archon-blue: #3B82F6;      /* Informational */
+  
+  /* Agent Domain Colors */
+  --agent-commander: #8B5CF6;  /* Purple */
+  --agent-impact: #EC4899;     /* Pink */
+  --agent-vendor: #14B8A6;     /* Teal */
+  --agent-compliance: #F97316; /* Orange */
+  --agent-comms: #3B82F6;      /* Blue */
+  --agent-remediation: #22C55E;/* Green */
+  --agent-memory: #A78BFA;     /* Lavender */
+  
+  /* Surfaces & Glassmorphism */
+  --surface-primary: #0A0F1E;
+  --surface-card: rgba(26, 35, 64, 0.65);
+  --surface-card-hover: rgba(30, 41, 75, 0.85);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(245, 158, 11, 0.4);
+  
+  /* Typography */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+}
+
+body {
+  background-color: var(--archon-navy);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.06) 0%, transparent 60%),
+    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0F1E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--surface-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-panel-interactive {
+  background: var(--surface-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-interactive:hover {
+  background: var(--surface-card-hover);
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px 0 var(--archon-amber-glow);
+}
+
+/* Pulse Animations */
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+.pulse-dot-green {
+  animation: pulse-dot 2s infinite ease-in-out;
+}

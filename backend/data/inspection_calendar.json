@@ -1,0 +1,94 @@
+[
+  {
+    "inspection_id": "INSP-2026-001",
+    "agency": "State Office of the Fire Marshal",
+    "inspection_type": "Annual Life Safety & Fire Suppression Audit",
+    "building_id": "BLDG-D",
+    "scheduled_date": "2026-08-28T09:00:00",
+    "status": "upcoming",
+    "required_documents": [
+      "NFPA 25 Sprinkler Flow Test Log",
+      "Emergency Egress Lighting 90-Minute Battery Discharge Record",
+      "Chemical Fume Hood Velocity Certification (Form LS-44)",
+      "Corrective Action Proof for Prior Pressure Relief Valve Defect"
+    ],
+    "outstanding_violations": [
+      "Prior Citation D-104: Blocked secondary exit corridor in Biohazard Lab 4B",
+      "Prior Citation D-109: Expired hydro-test tag on halon substitute suppression bottle in Vivarium"
+    ]
+  },
+  {
+    "inspection_id": "INSP-2026-002",
+    "agency": "Occupational Safety and Health Administration (OSHA)",
+    "inspection_type": "Hazardous Materials & Laboratory Safety Audit",
+    "building_id": "BLDG-C",
+    "scheduled_date": "2026-09-05T10:00:00",
+    "status": "upcoming",
+    "required_documents": [
+      "Safety Data Sheet (SDS) Campus Digital Binder",
+      "Eyewash Station Weekly Flush Inspection Sign-off Sheets",
+      "Sub-Basement Chemical Containment Sump Sensor Calibrations"
+    ],
+    "outstanding_violations": []
+  },
+  {
+    "inspection_id": "INSP-2026-003",
+    "agency": "Department of Public Health & Accreditation Board",
+    "inspection_type": "Hospital Environment of Care Inspection",
+    "building_id": "BLDG-H",
+    "scheduled_date": "2026-09-12T08:30:00",
+    "status": "upcoming",
+    "required_documents": [
+      "NICU Air Handling Filtration Efficiency Logs (MERV 16 / HEPA)",
+      "Emergency Chilled Water Bypass Redundancy Protocol Record",
+      "Medical Gas Manifold Alarm Test Log"
+    ],
+    "outstanding_violations": [
+      "Prior Advisory H-201: Transient humidity dip recorded during winter chiller transition"
+    ]
+  },
+  {
+    "inspection_id": "INSP-2026-004",
+    "agency": "State Elevator Safety Board",
+    "inspection_type": "Traction Elevator Annual Load & Brake Test",
+    "building_id": "BLDG-A",
+    "scheduled_date": "2026-09-18T13:00:00",
+    "status": "upcoming",
+    "required_documents": [
+      "Full Load Governor & Safety Gear Trip Calibration Certificate",
+      "Atlas Elevator Monthly Maintenance Service Slips (Q1-Q3 2026)",
+      "Emergency Cab Intercom Communication Test Log"
+    ],
+    "outstanding_violations": [
+      "Prior Citation A-03: Shaft 2 door interlock sensor debounce fault"
+    ]
+  },
+  {
+    "inspection_id": "INSP-2026-005",
+    "agency": "Environmental Protection Agency (EPA) Regional Division",
+    "inspection_type": "Campus Spill Prevention, Control, and Countermeasure (SPCC)",
+    "building_id": "BLDG-B",
+    "scheduled_date": "2026-09-25T11:00:00",
+    "status": "upcoming",
+    "required_documents": [
+      "Diesel Generator Fuel Storage Secondary Containment Integrity Log",
+      "Cooling Tower Biocide Discharge Permit Documentation",
+      "Stormwater Runoff Interceptor Inspection Logs"
+    ],
+    "outstanding_violations": []
+  },
+  {
+    "inspection_id": "INSP-2026-006",
+    "agency": "Municipal Building Department",
+    "inspection_type": "ADA Accessibility & Emergency Egress Compliance",
+    "building_id": "BLDG-J",
+    "scheduled_date": "2026-10-02T14:00:00",
+    "status": "upcoming",
+    "required_documents": [
+      "Wheelchair Lift Annual Inspection Certificate",
+      "Automated Door Assist Pressure Calibration Log",
+      "Tactile Braille Egress Map Verification Checklist"
+    ],
+    "outstanding_violations": []
+  }
+]
