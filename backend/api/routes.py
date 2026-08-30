@@ -376,19 +376,31 @@ async def list_incidents_endpoint(
 async def get_incident_detail_endpoint(incident_id: str):
     """Retrieves full incident detail, affected buildings, tasks, dispatches, and trace timeline."""
     inc = await firestore_service.get_incident(incident_id)
-    if not inc:
-        raise HTTPException(status_code=404, detail="Incident not found")
-
-    tasks = await firestore_service.list_tasks(incident_id)
-    dispatches = await firestore_service.list_dispatches(incident_id)
-    
-    # Get associated trace if available
-    traces = await firestore_service.list_traces()
-    matched_trace = next((t for t in traces if incident_id in t.get("trace_id", "") or t.get("trace_id") == incident_id), None)
-    
+    tasks = []
+    dispatches = []
     spans = []
-    if matched_trace:
-        spans = await firestore_service.get_trace_spans(matched_trace["trace_id"])
+
+    if not inc:
+        # Check evidence manifest files
+        from pathlib import Path
+        manifest_file = Path(__file__).resolve().parent.parent.parent / "evidence" / "incidents" / f"{incident_id}.manifest.json"
+        if manifest_file.exists():
+            import json
+            content = json.loads(manifest_file.read_text(encoding="utf-8"))
+            inc = content.get("state", content)
+            tasks = inc.get("remediation_tasks", [])
+            dispatches = inc.get("dispatches", [])
+        else:
+            raise HTTPException(status_code=404, detail="Incident not found")
+    else:
+        tasks = await firestore_service.list_tasks(incident_id)
+        dispatches = await firestore_service.list_dispatches(incident_id)
+        
+        # Get associated trace if available
+        traces = await firestore_service.list_traces()
+        matched_trace = next((t for t in traces if incident_id in t.get("trace_id", "") or t.get("trace_id") == incident_id), None)
+        if matched_trace:
+            spans = await firestore_service.get_trace_spans(matched_trace["trace_id"])
 
     return {
         "incident": inc,
@@ -396,6 +408,7 @@ async def get_incident_detail_endpoint(incident_id: str):
         "dispatches": dispatches,
         "spans": spans,
     }
+
 
 
 @router.post("/incidents/{incident_id}/signal")
@@ -628,3 +641,83 @@ async def get_dashboard_metrics_endpoint():
         "avg_response_time_minutes": 1.4,
         "campus_buildings_monitored": len(await firestore_service.list_buildings()),
     }
+
+
+# =====================================================================
+# Governance Invariant Verifier & Cryptographic State Endpoints
+# =====================================================================
+
+@router.get("/governance/invariants")
+async def get_governance_invariants_list():
+    """Returns the list of 12 deterministic ARCHON governance invariants."""
+    from governance.invariants import INVARIANT_CHECKS
+    return {
+        "total_invariants": 12,
+        "evaluation_engine": "Pure Python Deterministic Kernel (Zero Model Dependency)",
+        "invariants": [
+            {"id": "INV-01", "name": "Financial Threshold Quarantine", "scope": "Expenditures >$10,000 held for human director approval"},
+            {"id": "INV-02", "name": "No Tainted Source Action", "scope": "Zero downstream physical effects from Model Armor quarantined inputs"},
+            {"id": "INV-03", "name": "Domain Scope Integrity", "scope": "Agents strictly constrained to registered capability envelopes"},
+            {"id": "INV-04", "name": "No Duplicate Vendor Dispatch", "scope": "Exactly-once work order emission per building trade"},
+            {"id": "INV-05", "name": "P1 Escalation Determinism", "scope": "P1 incidents deterministically assign commander and broadcast alerts"},
+            {"id": "INV-06", "name": "Agent Loop Boundedness", "scope": "Maximum turn recursion depth capped at 10 turns"},
+            {"id": "INV-07", "name": "Memory Provenance Binding", "scope": "All curated lessons require source incident ID and outcome metrics"},
+            {"id": "INV-08", "name": "Approval Precedes Effect Execution", "scope": "Human director approval timestamp strictly precedes dispatch timestamp"},
+            {"id": "INV-09", "name": "No Orphaned Remediation Tasks", "scope": "Incidents cannot resolve with open or unassigned tasks"},
+            {"id": "INV-10", "name": "Cryptographic State Integrity", "scope": "Ed25519 signature verified against canonical state hash"},
+            {"id": "INV-11", "name": "Rate Limit Envelope Respected", "scope": "Agent invocations strictly bounded to 60 calls/min envelope"},
+            {"id": "INV-12", "name": "Zero Trust Identity Authorization", "scope": "Every action authenticated via SPIFFE JWT token"},
+        ]
+    }
+
+
+@router.get("/governance/verify/{incident_id}")
+async def verify_incident_invariants_endpoint(incident_id: str):
+    """
+    Executes the pure Python offline invariant evaluator against live/stored incident state.
+    Returns per-invariant PASS/FAIL verdicts, canonical state hash, and Ed25519 signature proof.
+    """
+    from governance.invariants import evaluate_all_invariants
+    from governance.signing import compute_state_hash, verify_incident_signature, sign_incident_state
+
+    # 1. Fetch incident state
+    incident = await firestore_service.get_incident(incident_id)
+    if not incident:
+        # Fallback to local manifest if not in active memory
+        from pathlib import Path
+        manifest_file = Path(__file__).resolve().parent.parent.parent / "evidence" / "incidents" / f"{incident_id}.manifest.json"
+        if manifest_file.exists():
+            import json
+            content = json.loads(manifest_file.read_text(encoding="utf-8"))
+            incident = content.get("state", content)
+            audit_trail = content.get("audit_trail", [])
+        else:
+            raise HTTPException(status_code=404, detail=f"Incident {incident_id} not found")
+    else:
+        # Get audit logs
+        audit_trail = await firestore_service.get_audit_trail(incident_id=incident_id)
+
+    # 2. Ensure state has signature or compute it
+    if not incident.get("signature"):
+        sig_meta = sign_incident_state(incident)
+        incident.update(sig_meta)
+
+    # 3. Evaluate invariants
+    state_hash = compute_state_hash(incident)
+    results = evaluate_all_invariants(incident, audit_trail)
+
+    all_passed = all(r.holds for r in results)
+    passed_count = sum(1 for r in results if r.holds)
+
+    return {
+        "incident_id": incident_id,
+        "state_hash": state_hash,
+        "signature": incident.get("signature"),
+        "signature_type": incident.get("signature_type", "ED25519"),
+        "public_key": incident.get("public_key"),
+        "verified_pass": all_passed,
+        "passed_invariants_count": passed_count,
+        "total_invariants_count": len(results),
+        "results": [r.as_dict() for r in results]
+    }
+

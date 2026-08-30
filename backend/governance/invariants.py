@@ -12,7 +12,11 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
 
-from backend.governance.signing import compute_state_hash, verify_incident_signature
+try:
+    from governance.signing import compute_state_hash, verify_incident_signature
+except ImportError:
+    from backend.governance.signing import compute_state_hash, verify_incident_signature
+
 
 
 @dataclass(frozen=True, slots=True)

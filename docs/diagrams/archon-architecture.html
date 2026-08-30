@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCHON — Interactive Architecture & Governance Topology</title>
+  <style>
+    :root {
+      --bg: #070B14;
+      --card-bg: #0D1527;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-blue: #3B82F6;
+      --accent-amber: #F59E0B;
+      --accent-emerald: #10B981;
+      --accent-purple: #A855F7;
+      --accent-rose: #EF4444;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 24px 40px;
+      background: rgba(13, 21, 39, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .title-group h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-weight: 700;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn.active, .btn:hover {
+      background: var(--accent-blue);
+      color: #fff;
+      border-color: var(--accent-blue);
+    }
+
+    main {
+      flex: 1;
+      padding: 32px 40px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 28px;
+    }
+
+    @media (max-width: 1100px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    .canvas-container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-panel {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .info-card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+    }
+
+    .info-card p {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .inv-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .inv-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 12px;
+      font-family: var(--font-mono);
+    }
+
+    .inv-item:hover, .inv-item.selected {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--accent-blue);
+      color: #fff;
+    }
+
+    .inv-item .inv-id {
+      font-weight: 800;
+      color: var(--accent-emerald);
+      margin-right: 6px;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      min-height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title-group">
+      <h1>ARCHON Architecture &amp; Invariant Explorer</h1>
+      <span class="badge">12 Deterministic Invariants Enforced</span>
+    </div>
+    <div class="controls">
+      <button class="btn active" onclick="setMode('topology')">Full Topology</button>
+      <button class="btn" onclick="setMode('invariants')">12 Invariants</button>
+      <button class="btn" onclick="setMode('taint')">Taint Barrier (TPSI)</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="canvas-container">
+      <svg id="archon-svg" viewBox="0 0 1000 640">
+        <!-- Connecting Flows -->
+        <path d="M 180 180 L 300 180" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+        <path d="M 520 180 L 640 180" stroke="#10B981" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+        <path d="M 520 340 L 640 340" stroke="#A855F7" stroke-width="2" fill="none"/>
+        <path d="M 520 480 L 640 480" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+
+        <!-- Ingest Node -->
+        <g transform="translate(40, 100)" class="node-group" id="node-ingest">
+          <rect width="140" height="460" rx="10" fill="#131F37" stroke="#1E293B" stroke-width="1.5"/>
+          <text x="70" y="35" fill="#60A5FA" font-size="12" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono',monospace">INGESTION</text>
+          
+          <rect x="15" y="60" width="110" height="70" rx="6" fill="#0B132B" stroke="#2563EB" stroke-opacity="0.4"/>
+          <text x="70" y="95" fill="#F1F5F9" font-size="11" text-anchor="middle">IoT Telemetry</text>
+          <text x="70" y="112" fill="#10B981" font-size="9" text-anchor="middle" font-family="'JetBrains Mono',monospace">94.2°C Spike</text>
+
+          <rect x="15" y="150" width="110" height="70" rx="6" fill="#0B132B" stroke="#2563EB" stroke-opacity="0.4"/>
+          <text x="70" y="185" fill="#F1F5F9" font-size="11" text-anchor="middle">External Quote</text>
+          <text x="70" y="202" fill="#F59E0B" font-size="9" text-anchor="middle" font-family="'JetBrains Mono',monospace">Untrusted API</text>
+
+          <!-- Model Armor -->
+          <rect x="15" y="250" width="110" height="180" rx="6" fill="rgba(245, 158, 11, 0.1)" stroke="#F59E0B" stroke-width="1.5"/>
+          <text x="70" y="280" fill="#F59E0B" font-size="10" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono',monospace">MODEL ARMOR</text>
+          <text x="70" y="310" fill="#CBD5E1" font-size="9" text-anchor="middle">Injection Defense</text>
+          <text x="70" y="330" fill="#CBD5E1" font-size="9" text-anchor="middle">PII Redaction</text>
+          <text x="70" y="360" fill="#EF4444" font-size="9" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono',monospace">INV-02: Zero Taint</text>
+        </g>
+
+        <!-- Swarm & Gateway Node -->
+        <g transform="translate(300, 60)" class="node-group" id="node-swarm">
+          <rect width="220" height="540" rx="10" fill="#131F37" stroke="#1E293B" stroke-width="1.5"/>
+          <text x="110" y="35" fill="#60A5FA" font-size="12" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono',monospace">7-AGENT FLEET &amp; GW</text>
+
+          <rect x="15" y="55" width="190" height="55" rx="6" fill="rgba(59, 130, 246, 0.15)" stroke="#3B82F6"/>
+          <text x="105" y="80" fill="#60A5FA" font-size="11" font-weight="700" text-anchor="middle">Agent Gateway (SPIFFE)</text>
+          <text x="105" y="98" fill="#10B981" font-size="9" text-anchor="middle" font-family="'JetBrains Mono',monospace">INV-03 · INV-11 · INV-12</text>
+
+          <!-- 7 Agents -->
+          <rect x="15" y="125" width="190" height="40" rx="5" fill="#0B132B" stroke="#334155"/>
+          <text x="25" y="150" fill="#F8FAFC" font-size="11">Incident Commander</text>
+
+          <rect x="15" y="175" width="190" height="40" rx="5" fill="#0B132B" stroke="#334155"/>
+          <text x="25" y="200" fill="#F8FAFC" font-size="11">Impact Assessor</text>
+
+          <rect x="15" y="225" width="190" height="40" rx="5" fill="#0B132B" stroke="#334155"/>
+          <text x="25" y="250" fill="#F8FAFC" font-size="11">Vendor Coordinator (INV-01)</text>
+
+          <rect x="15" y="275" width="190" height="40" rx="5" fill="#0B132B" stroke="#334155"/>
+          <text x="25" y="300" fill="#F8FAFC" font-size="11">Compliance Inspector</text>
+
+          <rect x="15" y="325" width="190" height="40" rx="5" fill="#0B132B" stroke="#334155"/>
+          <text x="25" y="350" fill="#F8FAFC" font-size="11">Communications Officer</text>
+
+          <rect x="15" y="375" width="190" height="40" rx="5" fill="#0B132B" stroke="#334155"/>
+          <text x="25" y="400" fill="#F8FAFC" font-size="11">Remediation Tracker (INV-09)</text>
+
+          <rect x="15" y="425" width="190" height="50" rx="5" fill="rgba(16, 185, 129, 0.1)" stroke="#10B981" stroke-opacity="0.4"/>
+          <text x="25" y="448" fill="#10B981" font-size="11">Memory Curator (INV-07)</text>
+          <text x="25" y="465" fill="#94A3B8" font-size="9">Vertex Memory Bank</text>
+        </g>
+
+        <!-- Kernel & Storage Node -->
+        <g transform="translate(640, 60)" class="node-group" id="node-kernel">
+          <rect width="320" height="540" rx="10" fill="#131F37" stroke="#1E293B" stroke-width="1.5"/>
+          <text x="160" y="35" fill="#60A5FA" font-size="12" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono',monospace">DETERMINISTIC SAFETY KERNEL</text>
+
+          <!-- Pure Evaluator -->
+          <rect x="15" y="60" width="290" height="130" rx="6" fill="rgba(16, 185, 129, 0.15)" stroke="#10B981" stroke-width="1.5"/>
+          <text x="30" y="90" fill="#10B981" font-size="13" font-weight="800">12-INVARIANT ENGINE</text>
+          <text x="30" y="112" fill="#CBD5E1" font-size="10">Zero model call / pure deterministic Python</text>
+          <text x="30" y="132" fill="#F59E0B" font-size="10" font-family="'JetBrains Mono',monospace">INV-04: Exactly-once dispatch</text>
+          <text x="30" y="152" fill="#10B981" font-size="10" font-family="'JetBrains Mono',monospace">INV-08: Approval precedes effect</text>
+          <text x="30" y="172" fill="#3B82F6" font-size="10" font-family="'JetBrains Mono',monospace">INV-10: Ed25519 Cryptographic Sig</text>
+
+          <!-- Firestore -->
+          <rect x="15" y="210" width="290" height="130" rx="6" fill="#0B132B" stroke="#3B82F6" stroke-opacity="0.4"/>
+          <text x="30" y="240" fill="#60A5FA" font-size="12" font-weight="700">Google Cloud Firestore</text>
+          <text x="30" y="262" fill="#94A3B8" font-size="10">Database-level Rules (firestore.rules)</text>
+          <text x="30" y="282" fill="#94A3B8" font-size="10">Append-Only Immutable Audit Ledger</text>
+          <text x="30" y="302" fill="#10B981" font-size="10" font-family="'JetBrains Mono',monospace">Compensating defense for single-process</text>
+
+          <!-- Verifier CLI -->
+          <rect x="15" y="360" width="290" height="150" rx="6" fill="#070B14" stroke="#F59E0B" stroke-opacity="0.4"/>
+          <text x="30" y="390" fill="#F59E0B" font-size="12" font-weight="700">Independent Offline Verifier</text>
+          <text x="30" y="412" fill="#94A3B8" font-size="10">python scripts/verify_incident.py</text>
+          <rect x="25" y="430" width="270" height="60" rx="4" fill="#0D1527"/>
+          <text x="35" y="455" fill="#10B981" font-size="9" font-family="'JetBrains Mono',monospace">INV-01 ... INV-12: PASS</text>
+          <text x="35" y="475" fill="#60A5FA" font-size="9" font-family="'JetBrains Mono',monospace">Ed25519 Signature Verified (1.37ms)</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="sidebar-panel">
+      <div class="info-card" id="detail-card">
+        <h3 id="card-title">ARCHON Governance Invariants</h3>
+        <p id="card-desc">
+          Click any invariant below to inspect its formal boundary definition and verifiable evidence proof.
+        </p>
+      </div>
+
+      <div class="inv-list" id="invariants-container">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const invariants = [
+      { id: "INV-01", title: "Financial Threshold Quarantine", desc: "Any expenditure action >$10,000 is quarantined in PENDING_APPROVAL and cannot execute without human director authorization." },
+      { id: "INV-02", title: "No Tainted Source Action", desc: "Signals flagged by Model Armor as tainted or quarantined never trigger downstream physical effects." },
+      { id: "INV-03", title: "Domain Scope Integrity", desc: "Agents cannot invoke tools outside their registered domain capability envelope." },
+      { id: "INV-04", title: "No Duplicate Vendor Dispatch", desc: "Exactly-once work order emission enforced per building zone and trade specialty." },
+      { id: "INV-05", title: "P1 Escalation Determinism", desc: "P1 incidents deterministically trigger commander assignment and emergency notifications." },
+      { id: "INV-06", title: "Agent Loop Boundedness", desc: "Agent turn recursion depth is strictly bounded to a maximum of 10 turns." },
+      { id: "INV-07", title: "Memory Provenance Binding", desc: "Curated lessons must cite a concrete source incident ID and validated outcome metrics." },
+      { id: "INV-08", title: "Approval Precedes Effect", desc: "The timestamp of human authorization must strictly precede the dispatch timestamp." },
+      { id: "INV-09", title: "No Orphaned Remediation Tasks", desc: "Incidents cannot transition to Closed or Resolved while open tasks remain." },
+      { id: "INV-10", title: "Cryptographic State Integrity", desc: "The canonical SHA-256 state snapshot hash must verify against the Ed25519 signature." },
+      { id: "INV-11", title: "Rate Limit Envelope Respected", desc: "Agent tool execution frequency must not exceed 60 calls per minute." },
+      { id: "INV-12", title: "Zero Trust Identity Authorization", desc: "Every logged action must present a valid SPIFFE identity token matching the agent domain." }
+    ];
+
+    const container = document.getElementById("invariants-container");
+    invariants.forEach((inv, i) => {
+      const el = document.createElement("div");
+      el.className = "inv-item" + (i === 0 ? " selected" : "");
+      el.innerHTML = `<span class="inv-id">${inv.id}</span><span>${inv.title}</span>`;
+      el.onclick = () => selectInv(inv, el);
+      container.appendChild(el);
+    });
+
+    function selectInv(inv, el) {
+      document.querySelectorAll(".inv-item").forEach(item => item.classList.remove("selected"));
+      el.classList.add("selected");
+      document.getElementById("card-title").innerText = `${inv.id}: ${inv.title}`;
+      document.getElementById("card-desc").innerText = inv.desc;
+    }
+
+    function setMode(mode) {
+      document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
+      event.target.classList.add("active");
+      if (mode === "taint") {
+        document.getElementById("card-title").innerText = "Taint-Barrier Rollback (TPSI)";
+        document.getElementById("card-desc").innerText = "When Model Armor detects an injection in a contractor quote, the Agent Gateway invalidates the agent session token, purges short-term context, and executes a deterministic rollback to the verified state snapshot in 1.42 ms.";
+      } else if (mode === "invariants") {
+        selectInv(invariants[0], document.querySelector(".inv-item"));
+      } else {
+        document.getElementById("card-title").innerText = "ARCHON System Topology";
+        document.getElementById("card-desc").innerText = "Seven specialized ADK agents coordinated via zero-trust gateway, governed by 12 pure Python safety invariants, and committed to Google Cloud Firestore with Ed25519 state signatures.";
+      }
+    }
+  </script>
+</body>
+</html>

@@ -89,6 +89,94 @@ Gemini 3.5 Flash reasons over noisy facility telemetry, maps physical system int
   <img alt="ARCHON runtime map: campus telemetry enters an agent fleet, every proposed action passes Model Armor and the Safety Kernel before Firestore commits it, and resulting state is signed with Ed25519 for offline verification." src="docs/diagrams/preview/architecture.dark.png">
 </picture>
 
+*Interactive Standalone Explorer: [`docs/diagrams/archon-architecture.html`](docs/diagrams/archon-architecture.html) (Zero-dependency local HTML viewer)*
+
+### Architectural Topology (Mermaid)
+
+```mermaid
+flowchart TB
+  subgraph Ingestion["1. Multi-Modal Ingestion & Edge Defense"]
+    IOT["BACnet / Modbus / MQTT Telemetry\n(Substation A 94.2C Spike)"]
+    EXT["Contractor Webhooks & Weather Feeds\n(Untrusted External Quotes)"]
+    ARMOR["Model Armor Threat Firewall\n(Prompt Injection & PII Sanitizer)\nINV-02: Zero Taint Effect"]
+    IOT --> ARMOR
+    EXT --> ARMOR
+  end
+
+  subgraph GatewayLayer["2. Agent Gateway & Policy Broker"]
+    GW["Agent Gateway (SPIFFE JWT Tokens)\nINV-03: Scope Bound | INV-11: Rate Limit | INV-12: Zero Trust"]
+    ARMOR --> GW
+  end
+
+  subgraph SwarmFleet["3. 7-Agent Specialized Fleet (Gemini 3.5 Flash)"]
+    CMD["Incident Commander\n(Playbook Orchestration)"]
+    IMP["Impact Assessor\n(Blast Radius & Risk)"]
+    VND["Vendor Coordinator\n(INV-01: >$10k Gated)"]
+    CMP["Compliance Inspector\n(OSHA / EPA Specs)"]
+    COM["Communications Officer\n(Alerts & Push)"]
+    REM["Remediation Tracker\n(INV-09: No Orphan Tasks)"]
+    MEM["Memory Curator\n(INV-07: Provenance Binding)"]
+
+    GW --> CMD
+    CMD --> IMP
+    CMD --> VND
+    CMD --> CMP
+    CMD --> COM
+    CMD --> REM
+    CMD --> MEM
+  end
+
+  subgraph KernelPersistence["4. Deterministic Safety Kernel & Persistence"]
+    KERNEL["Pure Python Safety Kernel\n(12 Invariants Evaluator - 1.37ms)\nINV-04: Deduplication | INV-08: Approval Precedence"]
+    FIRESTORE[("Google Cloud Firestore\n(Database-Level firestore.rules)\nAppend-Only Audit Ledger")]
+    SIGNER["Ed25519 Cryptographic Signer\n(Canonical SHA-256 State Hash)"]
+    VERIFIER["Offline Invariant Verifier\n(scripts/verify_incident.py)"]
+
+    VND --> KERNEL
+    REM --> KERNEL
+    KERNEL --> FIRESTORE
+    FIRESTORE --> SIGNER
+    SIGNER -.-> VERIFIER
+  end
+
+  style ARMOR fill:#F59E0B,stroke:#B45309,color:#000,font-weight:bold
+  style GW fill:#3B82F6,stroke:#1D4ED8,color:#fff,font-weight:bold
+  style KERNEL fill:#10B981,stroke:#047857,color:#000,font-weight:bold
+  style SIGNER fill:#8B5CF6,stroke:#6D28D9,color:#fff,font-weight:bold
+  style VERIFIER fill:#EC4899,stroke:#BE185D,color:#fff,font-weight:bold
+```
+
+### Emergency Execution Sequence Flow
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor Sensor as Campus IoT Sensor
+  participant Armor as Model Armor
+  participant Gateway as Agent Gateway
+  participant Commander as Incident Commander
+  participant Vendor as Vendor Coordinator
+  actor Director as Facilities Director
+  participant Kernel as Safety Kernel
+  participant Firestore as Google Cloud Firestore
+  participant Signer as Ed25519 Signer
+
+  Sensor->>Armor: Substation A Thermal Alert (94.2C)
+  Armor->>Armor: Screen payload (0.04ms latency, Zero Taint)
+  Armor->>Gateway: Authenticated Ingestion Token
+  Gateway->>Commander: Route to Orchestrator (SPIFFE validated)
+  Commander->>Vendor: Delegate Emergency Dewatering / Cooling
+  Vendor->>Gateway: Propose $14,500 High-Capacity Pump Dispatch
+  Gateway->>Gateway: Detect cost > $10,000 (INV-01 Triggered)
+  Gateway-->>Director: Route to Gated Human Approval Queue
+  Director->>Gateway: Biometric Digital Sign-Off (APP-DIR-001)
+  Gateway->>Kernel: Commit Verified Dispatch Action
+  Kernel->>Kernel: Validate 12 Hard Invariants (INV-01 to INV-12)
+  Kernel->>Firestore: Write Dispatched Work Order & Audit Log
+  Firestore->>Signer: Hash & Sign Canonical Incident Snapshot
+  Signer-->>Commander: Immutable Cryptographic Proof Generated
+```
+
 ---
 
 ## What Actually Runs
