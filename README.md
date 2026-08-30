@@ -1,7 +1,5 @@
 # ARCHON: Autonomous Resilient Campus Hazard & Operations Network
 
-![ARCHON Platform Banner](docs/screenshots/banner.png)
-
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
@@ -12,6 +10,8 @@
 ![Render Backend](https://img.shields.io/badge/Backend-Render%20Live-46E3B7?style=for-the-badge&logo=render&logoColor=white)
 ![Safety Invariants](https://img.shields.io/badge/Governance-12%20Invariants%20Enforced-22C55E?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+
+![ARCHON Platform Banner](docs/screenshots/banner.png)
 
 </div>
 
