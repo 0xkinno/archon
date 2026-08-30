@@ -61,4 +61,13 @@ researchwork/
 researchwork.md
 archon_instruction.md
 archon_audit_instruction.md
+references/
+references
+
+# Video
+video/node_modules/
+video/out/
+*.mp4
+
+
 

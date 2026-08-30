@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for identity and role verification
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function hasRole(role) {
+      return isAuthenticated() && request.auth.token.role == role;
+    }
+
+    function isAgent(agentName) {
+      return isAuthenticated() && request.auth.token.agent_name == agentName;
+    }
+
+    function isHumanDirector() {
+      return hasRole('facilities_director') || hasRole('operations_chief') || hasRole('admin');
+    }
+
+    // Incidents collection: Only Incident Commander can alter status & severity
+    match /incidents/{incidentId} {
+      allow read: if isAuthenticated();
+      allow create: if isAgent('incident_commander') || isHumanDirector();
+      allow update: if (isAgent('incident_commander') || isHumanDirector())
+                    && request.resource.data.incident_id == resource.data.incident_id;
+      allow delete: if false; // Incidents are immutable once created
+    }
+
+    // Dispatches / Work Orders: Only Vendor Coordinator can dispatch; expenditure rule
+    match /dispatches/{dispatchId} {
+      allow read: if isAuthenticated();
+      allow create, update: if (isAgent('vendor_coordinator') || isHumanDirector())
+                            && (
+                              request.resource.data.estimated_cost <= 10000.0
+                              || (request.resource.data.approval_id != null && request.resource.data.authorized_by != null)
+                            );
+      allow delete: if false;
+    }
+
+    // Approvals: Only Human Directors can grant financial authorizations >$10k
+    match /approvals/{approvalId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isHumanDirector();
+      allow delete: if false;
+    }
+
+    // Curated Memory Bank: Only Memory Curator can write historical precedents
+    match /memories/{memoryId} {
+      allow read: if isAuthenticated();
+      allow create: if isAgent('memory_curator')
+                    && request.resource.data.source_incident_id != null
+                    && request.resource.data.lesson != null;
+      allow update, delete: if isHumanDirector();
+    }
+
+    // Audit Logs: Strict append-only ledger; updates and deletions strictly forbidden
+    match /audit_logs/{logId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.timestamp != null;
+      allow update, delete: if false;
+    }
+  }
+}

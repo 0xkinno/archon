@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html>
+<body style="margin:0; padding:0; background:#070B14; display:flex; justify-content:center; align-items:center; width:1400px; height:780px;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 780" width="1400" height="780" style="background:#070B14; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif;">
+  <defs>
+    <linearGradient id="blueGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1D4ED8" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="amberGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#B45309" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="emeraldGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#047857" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Header -->
+  <text x="60" y="55" fill="#F8FAFC" font-size="24" font-weight="800" letter-spacing="-0.02em">ARCHON RUNTIME &amp; GOVERNANCE TOPOLOGY</text>
+  <text x="60" y="82" fill="#94A3B8" font-size="14" font-family="'JetBrains Mono',monospace">Deterministic Safety Kernel · 12 Invariants · Ed25519 Signed State · Least Privilege</text>
+
+  <!-- Layer 1: Ingestion & Telemetry -->
+  <g transform="translate(60, 120)" filter="url(#shadow)">
+    <rect width="260" height="580" rx="14" fill="#0D1527" stroke="#1E293B" stroke-width="1.5"/>
+    <rect width="260" height="42" rx="14" fill="#1E293B" fill-opacity="0.6"/>
+    <text x="20" y="27" fill="#60A5FA" font-size="13" font-weight="700" font-family="'JetBrains Mono',monospace">LAYER 1 · INGESTION</text>
+    
+    <!-- Ingest Cards -->
+    <rect x="18" y="60" width="224" height="85" rx="8" fill="#131F37" stroke="#2563EB" stroke-opacity="0.3"/>
+    <text x="32" y="88" fill="#F1F5F9" font-size="14" font-weight="600">IoT Sensors &amp; BMS</text>
+    <text x="32" y="108" fill="#94A3B8" font-size="12">BACnet, Modbus, MQTT</text>
+    <text x="32" y="128" fill="#10B981" font-size="11" font-family="'JetBrains Mono',monospace">● Substation A (94.2°C)</text>
+
+    <rect x="18" y="160" width="224" height="85" rx="8" fill="#131F37" stroke="#2563EB" stroke-opacity="0.3"/>
+    <text x="32" y="188" fill="#F1F5F9" font-size="14" font-weight="600">External Webhooks</text>
+    <text x="32" y="208" fill="#94A3B8" font-size="12">NOAA Radar, Contractor APIs</text>
+    <text x="32" y="228" fill="#F59E0B" font-size="11" font-family="'JetBrains Mono',monospace">● Flash Flood Alert</text>
+
+    <rect x="18" y="260" width="224" height="85" rx="8" fill="#131F37" stroke="#2563EB" stroke-opacity="0.3"/>
+    <text x="32" y="288" fill="#F1F5F9" font-size="14" font-weight="600">Human Directives</text>
+    <text x="32" y="308" fill="#94A3B8" font-size="12">Ops Center, Mobile Console</text>
+    <text x="32" y="328" fill="#3B82F6" font-size="11" font-family="'JetBrains Mono',monospace">● Manual Escalation P1</text>
+
+    <!-- Model Armor Firewall -->
+    <rect x="18" y="370" width="224" height="180" rx="8" fill="url(#amberGlow)" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="32" y="400" fill="#F59E0B" font-size="13" font-weight="800" font-family="'JetBrains Mono',monospace">MODEL ARMOR FIREWALL</text>
+    <text x="32" y="424" fill="#CBD5E1" font-size="12">Prompt Injection Scanner</text>
+    <text x="32" y="444" fill="#CBD5E1" font-size="12">PII Masking &amp; Redaction</text>
+    <text x="32" y="464" fill="#CBD5E1" font-size="12">Taint-Propagation Isolation</text>
+    <rect x="32" y="485" width="196" height="45" rx="6" fill="#0B132B" stroke="#F59E0B" stroke-opacity="0.4"/>
+    <text x="42" y="505" fill="#EF4444" font-size="11" font-family="'JetBrains Mono',monospace">INV-02: Zero Taint Effect</text>
+    <text x="42" y="520" fill="#94A3B8" font-size="10">Auto-Quarantine &amp; Rollback</text>
+  </g>
+
+  <!-- Layer 2: Swarm & Agent Gateway -->
+  <g transform="translate(360, 120)" filter="url(#shadow)">
+    <rect width="480" height="580" rx="14" fill="#0D1527" stroke="#1E293B" stroke-width="1.5"/>
+    <rect width="480" height="42" rx="14" fill="#1E293B" fill-opacity="0.6"/>
+    <text x="20" y="27" fill="#60A5FA" font-size="13" font-weight="700" font-family="'JetBrains Mono',monospace">LAYER 2 · AGENT GATEWAY &amp; 7-AGENT FLEET</text>
+
+    <!-- Gateway Enforcement Box -->
+    <rect x="20" y="60" width="440" height="85" rx="8" fill="url(#blueGlow)" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="36" y="88" fill="#60A5FA" font-size="14" font-weight="700">Agent Gateway Policy Broker</text>
+    <text x="36" y="108" fill="#CBD5E1" font-size="12">SPIFFE JWT Tokens · Scope Binding · 60 req/min Rate Limit Envelope</text>
+    <text x="36" y="128" fill="#10B981" font-size="11" font-family="'JetBrains Mono',monospace">INV-03: Domain Integrity · INV-11: Rate Limit · INV-12: Zero Trust</text>
+
+    <!-- 7 Specialist Agents Grid -->
+    <rect x="20" y="160" width="210" height="90" rx="8" fill="#131F37" stroke="#334155"/>
+    <text x="32" y="185" fill="#F8FAFC" font-size="13" font-weight="700">Incident Commander</text>
+    <text x="32" y="205" fill="#94A3B8" font-size="11">Owns master state &amp; plan</text>
+    <text x="32" y="225" fill="#EF4444" font-size="10" font-family="'JetBrains Mono',monospace">Cannot execute funds</text>
+
+    <rect x="250" y="160" width="210" height="90" rx="8" fill="#131F37" stroke="#334155"/>
+    <text x="262" y="185" fill="#F8FAFC" font-size="13" font-weight="700">Impact Assessor</text>
+    <text x="262" y="205" fill="#94A3B8" font-size="11">Blast radius &amp; risk score</text>
+    <text x="262" y="225" fill="#EF4444" font-size="10" font-family="'JetBrains Mono',monospace">No dispatch authority</text>
+
+    <rect x="20" y="265" width="210" height="90" rx="8" fill="#131F37" stroke="#334155"/>
+    <text x="32" y="290" fill="#F8FAFC" font-size="13" font-weight="700">Vendor Coordinator</text>
+    <text x="32" y="310" fill="#94A3B8" font-size="11">Contractor ranking &amp; PO</text>
+    <text x="32" y="330" fill="#F59E0B" font-size="10" font-family="'JetBrains Mono',monospace">INV-01: &gt;$10k Gated</text>
+
+    <rect x="250" y="265" width="210" height="90" rx="8" fill="#131F37" stroke="#334155"/>
+    <text x="262" y="290" fill="#F8FAFC" font-size="13" font-weight="700">Compliance Inspector</text>
+    <text x="262" y="310" fill="#94A3B8" font-size="11">OSHA / EPA / Safety rules</text>
+    <text x="262" y="330" fill="#EF4444" font-size="10" font-family="'JetBrains Mono',monospace">Read-only regulation</text>
+
+    <rect x="20" y="370" width="210" height="90" rx="8" fill="#131F37" stroke="#334155"/>
+    <text x="32" y="395" fill="#F8FAFC" font-size="13" font-weight="700">Communications</text>
+    <text x="32" y="415" fill="#94A3B8" font-size="11">Push alerts &amp; SMS</text>
+    <text x="32" y="435" fill="#EF4444" font-size="10" font-family="'JetBrains Mono',monospace">Zero physical effect</text>
+
+    <rect x="250" y="370" width="210" height="90" rx="8" fill="#131F37" stroke="#334155"/>
+    <text x="262" y="395" fill="#F8FAFC" font-size="13" font-weight="700">Remediation Tracker</text>
+    <text x="262" y="415" fill="#94A3B8" font-size="11">Work orders &amp; verification</text>
+    <text x="262" y="435" fill="#10B981" font-size="10" font-family="'JetBrains Mono',monospace">INV-09: No Orphan Tasks</text>
+
+    <!-- Memory Curator -->
+    <rect x="20" y="475" width="440" height="85" rx="8" fill="#131F37" stroke="#10B981" stroke-opacity="0.4"/>
+    <text x="36" y="502" fill="#10B981" font-size="13" font-weight="700">Memory Curator (Vertex Memory Bank Interface)</text>
+    <text x="36" y="522" fill="#94A3B8" font-size="11">Extracts institutional lessons · Semantic vector indexing · Provenance binding</text>
+    <text x="36" y="542" fill="#3B82F6" font-size="10" font-family="'JetBrains Mono',monospace">INV-07: Provenance Binding · INV-06: Bounded Recursion (Max 10 Turns)</text>
+  </g>
+
+  <!-- Layer 3: Safety Kernel & Immutable Ledger -->
+  <g transform="translate(880, 120)" filter="url(#shadow)">
+    <rect width="460" height="580" rx="14" fill="#0D1527" stroke="#1E293B" stroke-width="1.5"/>
+    <rect width="460" height="42" rx="14" fill="#1E293B" fill-opacity="0.6"/>
+    <text x="20" y="27" fill="#60A5FA" font-size="13" font-weight="700" font-family="'JetBrains Mono',monospace">LAYER 3 · DETERMINISTIC KERNEL &amp; AUDIT</text>
+
+    <!-- Pure Safety Kernel Box -->
+    <rect x="20" y="60" width="420" height="150" rx="8" fill="url(#emeraldGlow)" stroke="#10B981" stroke-width="1.5"/>
+    <text x="36" y="90" fill="#10B981" font-size="15" font-weight="800">ARCHON SAFETY KERNEL</text>
+    <text x="36" y="112" fill="#CBD5E1" font-size="12">Pure Python Invariant Evaluator (Zero Model Dependency)</text>
+    <text x="36" y="132" fill="#CBD5E1" font-size="12">Pre-Commit Validation &amp; Offline Audit Verifier</text>
+    <text x="36" y="152" fill="#F59E0B" font-size="11" font-family="'JetBrains Mono',monospace">INV-04: No Dup Dispatch · INV-08: Approval Precedes Effect</text>
+    <text x="36" y="172" fill="#10B981" font-size="11" font-family="'JetBrains Mono',monospace">INV-05: P1 Escalation · INV-10: Ed25519 State Signature</text>
+
+    <!-- Google Cloud Firestore Box -->
+    <rect x="20" y="230" width="420" height="150" rx="8" fill="#131F37" stroke="#3B82F6" stroke-opacity="0.4"/>
+    <text x="36" y="260" fill="#60A5FA" font-size="14" font-weight="700">Google Cloud Firestore</text>
+    <text x="36" y="282" fill="#94A3B8" font-size="12">Least-Privilege Security Rules (`firestore.rules`)</text>
+    <text x="36" y="302" fill="#94A3B8" font-size="12">Append-Only Audit Ledger · Transactional State Snapshot</text>
+    <text x="36" y="322" fill="#3B82F6" font-size="11" font-family="'JetBrains Mono',monospace">project-id: archon-ece25 · region: nam5</text>
+    <text x="36" y="342" fill="#10B981" font-size="11" font-family="'JetBrains Mono',monospace">Compensating Single-Process Defense Layer</text>
+
+    <!-- Offline Verifier Box -->
+    <rect x="20" y="400" width="420" height="160" rx="8" fill="#131F37" stroke="#F59E0B" stroke-opacity="0.4"/>
+    <text x="36" y="430" fill="#F59E0B" font-size="14" font-weight="700">Offline Verifier (scripts/verify_incident.py)</text>
+    <text x="36" y="452" fill="#CBD5E1" font-size="12">Reads raw snapshot · Recomputes all 12 invariants</text>
+    <text x="36" y="472" fill="#CBD5E1" font-size="12">Validates Ed25519 state hash signature</text>
+    <rect x="36" y="490" width="388" height="50" rx="6" fill="#070B14" stroke="#334155"/>
+    <text x="48" y="512" fill="#10B981" font-size="11" font-family="'JetBrains Mono',monospace">$ python scripts/verify_incident.py --manifest ...</text>
+    <text x="48" y="528" fill="#60A5FA" font-size="10" font-family="'JetBrains Mono',monospace">FINAL AUDIT RESULT: ALL INVARIANTS SATISFIED (PASS)</text>
+  </g>
+
+  <!-- Connecting Data Flow Arrows -->
+  <path d="M 320 280 L 360 280" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+  <path d="M 840 280 L 880 280" stroke="#10B981" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+  <path d="M 320 460 L 360 460" stroke="#F59E0B" stroke-width="2" fill="none"/>
+</svg>
+
+</body>
+</html>

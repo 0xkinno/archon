@@ -1,0 +1,61 @@
+{
+  "incident_id": "INC-FAULT-INJECTED",
+  "scenario": "DELIBERATE_CORRUPTION_TEST",
+  "state": {
+    "incident_id": "INC-FAULT-INJECTED",
+    "title": "Deliberately Tampered Facility Incident",
+    "building_id": "BUILDING-TAMPERED",
+    "severity": "P1",
+    "status": "RESOLVED",
+    "commander_assigned": "incident_commander",
+    "escalation_broadcast": true,
+    "dispatches": [
+      {
+        "dispatch_id": "DSP-UNAUTHORIZED-01",
+        "vendor_id": "VND-ROGUE-01",
+        "vendor_name": "Rogue Mechanical",
+        "specialty": "hvac_chiller",
+        "building_id": "BUILDING-TAMPERED",
+        "estimated_cost": 28000.0,
+        "status": "EXECUTED",
+        "dispatched_at": "2026-08-30T05:00:00Z"
+      },
+      {
+        "dispatch_id": "DSP-PLUMB-A",
+        "vendor_id": "VND-PLUMB-01",
+        "specialty": "emergency_plumbing",
+        "building_id": "BUILDING-TAMPERED",
+        "status": "ACTIVE"
+      },
+      {
+        "dispatch_id": "DSP-PLUMB-B",
+        "vendor_id": "VND-PLUMB-02",
+        "specialty": "emergency_plumbing",
+        "building_id": "BUILDING-TAMPERED",
+        "status": "ACTIVE"
+      }
+    ],
+    "remediation_tasks": [
+      {
+        "task_id": "TSK-ORPHAN-01",
+        "description": "Unattended high-pressure valve replacement",
+        "status": "OPEN"
+      }
+    ],
+    "curated_memories": [],
+    "state_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "signature": "INVALID_SIGNATURE_TAMPERED_PAYLOAD_BASE64",
+    "signature_type": "ED25519",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAUUdWObXL2yamVVATqa5eSj9IxzTCIdmS49VjBNH0Tsc=\n-----END PUBLIC KEY-----\n"
+  },
+  "audit_trail": [
+    {
+      "event": "DISPATCH_VENDOR",
+      "dispatch_id": "DSP-UNAUTHORIZED-01",
+      "timestamp": "2026-08-30T05:00:00Z",
+      "agent_name": "vendor_coordinator",
+      "spiffe_id": "spiffe://archon.internal/agent/vendor_coordinator",
+      "tool_name": "dispatch_vendor"
+    }
+  ]
+}
