@@ -2,8 +2,8 @@
   "incident_id": "INC-ADV-DEDUP-015",
   "scenario": "CONCURRENT_DEDUPLICATION_DEFENSE",
   "run_index": 15,
-  "timestamp": "2026-08-30T04:07:20.828436+00:00",
-  "execution_time_ms": 1.12,
+  "timestamp": "2026-08-30T06:51:42.713674+00:00",
+  "execution_time_ms": 2.58,
   "state": {
     "incident_id": "INC-ADV-DEDUP-015",
     "title": "Concurrent Dual-Sensor Pipe Burst Alarm",
@@ -106,7 +106,7 @@
       "invariant_id": "INV-06",
       "title": "Agent Loop Boundedness",
       "holds": true,
-      "detail": "all agent turn loops strictly bounded (max observed: 0 turns)",
+      "detail": "all agent turn loops strictly bounded (max observed: 2 turns)",
       "evidence": {}
     },
     {

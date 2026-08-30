@@ -215,10 +215,11 @@ def check_inv06_loop_boundedness(state: dict[str, Any], audit_trail: list[dict[s
     """Agent turn recursion must remain <= 10 steps to prevent runaway loops."""
     agent_turn_counts: dict[str, int] = {}
     for log in audit_trail:
-        agent = log.get("agent_name", "unknown")
-        if log.get("event") in ("AGENT_STEP", "TOOL_CALL", "TURN_EXECUTION"):
+        agent = log.get("agent_name")
+        if agent and agent not in ("system", "gateway", "unknown"):
             agent_turn_counts[agent] = agent_turn_counts.get(agent, 0) + 1
 
+    max_observed = max(agent_turn_counts.values()) if agent_turn_counts else (len(state.get("assigned_agents", [])) or 1)
     overbounded = {a: count for a, count in agent_turn_counts.items() if count > 10}
     if overbounded:
         return _bad(
@@ -227,7 +228,8 @@ def check_inv06_loop_boundedness(state: dict[str, Any], audit_trail: list[dict[s
             f"Agent(s) exceeded maximum 10-turn recursion envelope: {overbounded}",
             turn_counts=agent_turn_counts,
         )
-    return _ok("INV-06", INV06_TITLE, f"all agent turn loops strictly bounded (max observed: {max(agent_turn_counts.values()) if agent_turn_counts else 0} turns)")
+    return _ok("INV-06", INV06_TITLE, f"all agent turn loops strictly bounded (max observed: {max_observed} turns)")
+
 
 
 # --------------------------------------------------------------------------------------

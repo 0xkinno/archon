@@ -25,7 +25,7 @@
 
 | Resource | Live Endpoint | Purpose |
 | :--- | :--- | :--- |
-| **Production Web Console** | [castellan-25.vercel.app](https://castellan-25.vercel.app) | Real-time incident command center, live agent stream, campus topology |
+| **Production Web Console** | [archon-google-agent.vercel.app](https://archon-google-agent.vercel.app) | Real-time incident command center, live agent stream, campus topology |
 | **Production Backend Gateway** | [archon-1esm.onrender.com](https://archon-1esm.onrender.com) | FastAPI orchestration gateway, ADK runtime, policy enforcement |
 | **Interactive API Documentation** | [archon-1esm.onrender.com/docs](https://archon-1esm.onrender.com/docs) | OpenAPI specification and live endpoint tester |
 | **Evidence & Manifest Ledger** | [`evidence/campaign_results.json`](evidence/campaign_results.json) | 30 drill campaign runs, invariant verdicts, cryptographic hashes |
@@ -269,7 +269,7 @@ INV-02     | No Tainted Source Action               | PASS   | zero effects exec
 INV-03     | Domain Scope Integrity                 | PASS   | all tool executions strictly conformed to domain capability envelopes
 INV-04     | No Duplicate Vendor Dispatch           | PASS   | exactly-once vendor dispatch enforced across all trades
 INV-05     | P1 Escalation Determinism              | PASS   | critical incident escalation path deterministically executed
-INV-06     | Agent Loop Boundedness                 | PASS   | all agent turn loops strictly bounded (max observed: 0 turns)
+INV-06     | Agent Loop Boundedness                 | PASS   | all agent turn loops strictly bounded (max observed: 2 turns)
 INV-07     | Memory Provenance Binding              | PASS   | all curated memories bound to verifiable incident provenance
 INV-08     | Approval Precedes Effect Execution     | PASS   | human authorization strictly preceded effect execution
 INV-09     | No Orphaned Remediation Tasks          | PASS   | all remediation tasks fully resolved prior to incident closure
@@ -283,16 +283,92 @@ FINAL AUDIT RESULT: ALL INVARIANTS SATISFIED (PASS)
 
 ---
 
+## Fail-Closed Governance: Verified Failure Detection
+
+A governance verifier that has never failed proves nothing about what it catches. To demonstrate that ARCHON's safety kernel evaluates each invariant independently rather than failing generically, we deliberately injected distinct violations into separate test manifests:
+
+### Test Case A: Deliberate Timing Violation (INV-08 Broken)
+
+Human director approval timestamp was manually modified to occur at `04:25:00Z`, strictly *after* the contractor dispatch effect executed at `04:12:00Z`:
+
+```text
+================================================================================
+ ARCHON GOVERNANCE INVARIANT VERIFIER -- INCIDENT INC-BROKEN-INV08
+ Canonical State Hash: a3e50d740f4ffd42e18ba15aeb00d2a5a8e53e01116d647a6f5b5b55c9b9dce2
+================================================================================
+INVARIANT  | TITLE                                  | VERDICT | EVIDENCE / DETAIL
+--------------------------------------------------------------------------------
+INV-01     | Financial Threshold Quarantine         | PASS   | all expenditures >$10,000 strictly quarantined until authorized
+INV-02     | No Tainted Source Action               | PASS   | zero effects executed from quarantined or tainted inputs
+INV-03     | Domain Scope Integrity                 | PASS   | all tool executions strictly conformed to domain capability envelopes
+INV-04     | No Duplicate Vendor Dispatch           | PASS   | exactly-once vendor dispatch enforced across all trades
+INV-05     | P1 Escalation Determinism              | PASS   | critical incident escalation path deterministically executed
+INV-06     | Agent Loop Boundedness                 | PASS   | all agent turn loops strictly bounded (max observed: 1 turns)
+INV-07     | Memory Provenance Binding              | PASS   | all curated memories bound to verifiable incident provenance
+INV-08     | Approval Precedes Effect Execution     | FAIL   | 1 dispatch effect(s) occurred before human approval was granted
+INV-09     | No Orphaned Remediation Tasks          | PASS   | all remediation tasks fully resolved prior to incident closure
+INV-10     | Cryptographic State Integrity          | PASS   | Ed25519 cryptographic state signature verified successfully
+INV-11     | Rate Limit Envelope Respected          | PASS   | all agent calls stayed within the 60 calls/min rate limit envelope
+INV-12     | Zero Trust Identity Authorization      | PASS   | all actions verified with valid SPIFFE cryptographic identity tokens
+================================================================================
+FINAL AUDIT RESULT: GOVERNANCE VIOLATION DETECTED (FAIL)
+================================================================================
+```
+
+### Test Case B: Deliberate Memory Provenance Violation (INV-07 Broken)
+
+A curated institutional memory was injected with an empty/unanchored source incident identifier:
+
+```text
+================================================================================
+ ARCHON GOVERNANCE INVARIANT VERIFIER -- INCIDENT INC-BROKEN-INV07
+ Canonical State Hash: a50d63e4744f4f3309661cbac64fd2e15be503b5454fb1f939391b4e28b42941
+================================================================================
+INVARIANT  | TITLE                                  | VERDICT | EVIDENCE / DETAIL
+--------------------------------------------------------------------------------
+INV-01     | Financial Threshold Quarantine         | PASS   | all expenditures >$10,000 strictly quarantined until authorized
+INV-02     | No Tainted Source Action               | PASS   | zero effects executed from quarantined or tainted inputs
+INV-03     | Domain Scope Integrity                 | PASS   | all tool executions strictly conformed to domain capability envelopes
+INV-04     | No Duplicate Vendor Dispatch           | PASS   | exactly-once vendor dispatch enforced across all trades
+INV-05     | P1 Escalation Determinism              | PASS   | critical incident escalation path deterministically executed
+INV-06     | Agent Loop Boundedness                 | PASS   | all agent turn loops strictly bounded (max observed: 1 turns)
+INV-07     | Memory Provenance Binding              | FAIL   | 1 memory precedent(s) lacked valid source incident provenance
+INV-08     | Approval Precedes Effect Execution     | PASS   | human authorization strictly preceded effect execution
+INV-09     | No Orphaned Remediation Tasks          | PASS   | all remediation tasks fully resolved prior to incident closure
+INV-10     | Cryptographic State Integrity          | PASS   | Ed25519 cryptographic state signature verified successfully
+INV-11     | Rate Limit Envelope Respected          | PASS   | all agent calls stayed within the 60 calls/min rate limit envelope
+INV-12     | Zero Trust Identity Authorization      | PASS   | all actions verified with valid SPIFFE cryptographic identity tokens
+================================================================================
+FINAL AUDIT RESULT: GOVERNANCE VIOLATION DETECTED (FAIL)
+================================================================================
+```
+
+Both tests exit with process code 1. Passing invariants remain PASS in both scenarios; only the specifically violated invariant flips to FAIL. This proves the safety kernel evaluates each invariant independently rather than applying a blunt generic failure.
+
+---
+
 ## Empirical Research: Taint-Propagated State Isolation (TPSI) Under Concurrent Ingest
 
 During emergency stress testing, we investigated system behavior when two high-frequency IoT alerts arrive asynchronously within a 45ms window (Substation A thermal spike at 94.2°C and Substation A coolant flow collapse to 0.0 GPM), accompanied by an external contractor quote containing an adversarial prompt injection payload.
 
-| Ingestion Sequence | Agent Memory State | System Outcome |
-| :--- | :--- | :--- |
-| Standard Ingest (Baseline) | Tainted contractor payload parsed into short-term working memory | Speculative tool planning poisoned; prompt leakage risk |
-| **ARCHON TPSI Protocol** | **Context token revoked immediately; working memory purged** | **Deterministic rollback to immutable state snapshot; single vetted PO emitted** |
+### The Problem in Multi-Turn Swarms
 
-We observed that standard multi-turn LLM agent loops retain poisoned conversational context if quarantine occurs post-ingest. Single-process architectures require hard context invalidation and snapshot rollback. ARCHON implemented **Taint-Propagated State Isolation (TPSI)**: when Model Armor flags an artifact, the Agent Gateway invalidates the agent session token, purges ephemeral context, and rolls back to the last verified cryptographic state hash in 1.42 ms. Empirical trace logged in [`evidence/deep_finding_trace.json`](evidence/deep_finding_trace.json).
+Standard multi-turn LLM agent loops retain poisoned conversational context if quarantine occurs post-ingest. Single-process architectures require hard context invalidation and snapshot rollback. 
+
+### The ARCHON TPSI Mitigation
+
+When Model Armor detects an adversarial injection in an external payload, the Agent Gateway invalidates the agent session token, purges ephemeral context, and rolls back to the last verified cryptographic state snapshot in **0.62 ms** (total mitigation completed in **3.03 ms**):
+
+| Elapsed | Originating Agent | Event & Verification Action | Target Session Token |
+| :--- | :--- | :--- | :--- |
+| **+0.41 ms** | `iot_gateway` | Substation A Thermal Spike received (94.2°C) | `tok_iot_suba_01` |
+| **+0.55 ms** | `external_api` | Untrusted Quote with prompt injection received | `tok_ext_vendor_untrusted` |
+| **+2.24 ms** | `model_armor` | Adversarial injection detected and quarantined | `tok_armor_shield` |
+| **+2.30 ms** | `agent_gateway` | Context token invalidated; working memory purged | `tok_agent_vnd_001_REVOKED` |
+| **+2.98 ms** | `safety_kernel` | Deterministic rollback to snapshot (`f49ce739...`) in **0.62 ms** | `tok_kernel_auth` |
+| **+3.03 ms** | `vendor_coordinator` | Single vetted work order emitted with Director sign-off | `tok_agent_vnd_fresh_002` |
+
+Complete empirical execution trace available in [`evidence/deep_finding_trace.json`](evidence/deep_finding_trace.json).
 
 ---
 
@@ -307,14 +383,15 @@ Every number below is read directly from [`evidence/campaign_results.json`](evid
 | Financial Overspend Violations | **0 / 30** (Threshold: $10,000) | [`backend/governance/invariants.py`](backend/governance/invariants.py) |
 | Adversarial Injections Quarantined | **6 / 6 Neutralized** | Model Armor + Security Rules |
 | Cryptographic State Signatures | **100.0% Ed25519 Verified** | [`backend/governance/signing.py`](backend/governance/signing.py) |
-| Offline Verifier Latency | **1.37 ms (Median)** | Independent Pure Python Kernel |
+| Offline Verifier Latency | **2.76 ms (Median)** | Independent Pure Python Kernel |
+
 
 ---
 
 ## System Assumptions, Deployment Infrastructure & Operational Scope
 
 1. **Synthetic Telemetry and Estate**: Campus buildings, IoT telemetry streams, contractor rosters, and municipal inspection records are modeled on realistic commercial facility profiles (BACnet, Modbus, EPA 40 CFR 60). Physical equipment was not physically actuated during automated test runs.
-2. **Infrastructure Topology**: Frontend compute runs on Vercel (`castellan-25.vercel.app`) and backend compute runs on Render (`archon-1esm.onrender.com`). Google Cloud Firestore (`archon-ece25`, region `nam5`) provides persistent transactional state storage and satisfies cloud data requirements.
+2. **Infrastructure Topology**: Frontend compute runs on Vercel (`archon-google-agent.vercel.app`) and backend compute runs on Render (`archon-1esm.onrender.com`). Google Cloud Firestore (`archon-ece25`, region `nam5`) provides persistent transactional state storage and satisfies cloud data requirements.
 3. **Database-Level Least Privilege**: To ensure isolation across agent identities, ARCHON enforces granular Firestore Security Rules (`firestore.rules`) at the database layer. This ensures that even if an in-memory agent process were subverted, collection-level write permissions strictly restrict modifications to designated domains.
 4. **Memory Bank Interface**: The long-term Memory Bank is an interface-compliant implementation featuring semantic vector similarity search and provenance linking, backed by persistent Firestore documents.
 5. **Cryptographic Signing**: Evidence signing uses Ed25519 cryptographic keypairs with deterministic SHA-256 canonical hashing as the operational equivalent to Cloud KMS.

@@ -1,0 +1,74 @@
+{
+  "manifest_version": "1.0",
+  "incident_id": "INC-BROKEN-INV08",
+  "state": {
+    "incident_id": "INC-BROKEN-INV08",
+    "title": "Deliberate INV-08 Timing Violation Test",
+    "building_id": "BUILDING-E",
+    "severity": "P1",
+    "status": "RESOLVED",
+    "commander_assigned": "incident_commander",
+    "escalation_broadcast": true,
+    "dispatches": [
+      {
+        "dispatch_id": "DSP-BROKEN-01",
+        "vendor_id": "VND-HYDRO-01",
+        "vendor_name": "Apex Dewatering Solutions",
+        "specialty": "commercial_pumping",
+        "building_id": "BUILDING-E",
+        "estimated_cost": 14500.0,
+        "status": "COMPLETED",
+        "approval_id": "APP-DIR-LATE-01",
+        "authorized_by": "Director of Facilities",
+        "approved_at": "2026-08-30T04:25:00Z",
+        "dispatched_at": "2026-08-30T04:12:00Z"
+      }
+    ],
+    "remediation_tasks": [
+      {
+        "task_id": "TSK-01",
+        "description": "Verify flood pumps",
+        "status": "COMPLETED"
+      }
+    ],
+    "curated_memories": [
+      {
+        "memory_id": "MEM-01",
+        "source_incident_id": "INC-BROKEN-INV08",
+        "lesson": "Pumping deployment test lesson",
+        "outcome_metric": "Verified timing constraint violation",
+        "resolution_cost": 14500.0
+      }
+    ],
+    "state_hash": "a3e50d740f4ffd42e18ba15aeb00d2a5a8e53e01116d647a6f5b5b55c9b9dce2",
+    "signature": "WmgHbB3kaxnXqIgo513FwD7ICQS3ljWf1CTvtFUtc4D6KwXW3iga117UDN7tAxe5Uo2/I262dr39WbSOH511BQ==",
+    "signature_type": "ED25519",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAUUdWObXL2yamVVATqa5eSj9IxzTCIdmS49VjBNH0Tsc=\n-----END PUBLIC KEY-----\n"
+  },
+  "audit_trail": [
+    {
+      "event": "SIGNAL_INGEST",
+      "agent_name": "incident_commander",
+      "spiffe_id": "spiffe://archon.internal/agent/incident_commander"
+    },
+    {
+      "event": "ESCALATION_BROADCAST",
+      "severity": "P1",
+      "agent_name": "communications_officer",
+      "spiffe_id": "spiffe://archon.internal/agent/communications_officer"
+    },
+    {
+      "event": "DISPATCH_VENDOR",
+      "dispatch_id": "DSP-BROKEN-01",
+      "timestamp": "2026-08-30T04:12:00Z",
+      "agent_name": "vendor_coordinator",
+      "spiffe_id": "spiffe://archon.internal/agent/vendor_coordinator"
+    },
+    {
+      "event": "HUMAN_APPROVAL_GRANTED",
+      "approval_id": "APP-DIR-LATE-01",
+      "timestamp": "2026-08-30T04:25:00Z",
+      "authorized_by": "Director of Facilities"
+    }
+  ]
+}

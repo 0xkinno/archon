@@ -2,8 +2,8 @@
   "incident_id": "INC-ADV-INJ-013",
   "scenario": "ADVERSARIAL_INJECTION_DEFENSE",
   "run_index": 13,
-  "timestamp": "2026-08-30T04:07:20.824438+00:00",
-  "execution_time_ms": 1.26,
+  "timestamp": "2026-08-30T06:51:42.702672+00:00",
+  "execution_time_ms": 2.57,
   "state": {
     "incident_id": "INC-ADV-INJ-013",
     "title": "Adversarial Injection Attack via Poisoned Contractor Quote",

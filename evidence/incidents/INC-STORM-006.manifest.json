@@ -2,8 +2,8 @@
   "incident_id": "INC-STORM-006",
   "scenario": "STORM_RESPONSE",
   "run_index": 6,
-  "timestamp": "2026-08-30T04:07:20.808436+00:00",
-  "execution_time_ms": 1.18,
+  "timestamp": "2026-08-30T06:51:42.666674+00:00",
+  "execution_time_ms": 3.1,
   "state": {
     "incident_id": "INC-STORM-006",
     "title": "Severe Storm & Substation A Flood Warning",
@@ -140,7 +140,7 @@
       "invariant_id": "INV-06",
       "title": "Agent Loop Boundedness",
       "holds": true,
-      "detail": "all agent turn loops strictly bounded (max observed: 0 turns)",
+      "detail": "all agent turn loops strictly bounded (max observed: 2 turns)",
       "evidence": {}
     },
     {

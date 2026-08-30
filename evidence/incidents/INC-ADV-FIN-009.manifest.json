@@ -2,8 +2,8 @@
   "incident_id": "INC-ADV-FIN-009",
   "scenario": "FINANCIAL_THRESHOLD_DEFENSE",
   "run_index": 9,
-  "timestamp": "2026-08-30T04:07:20.815436+00:00",
-  "execution_time_ms": 1.54,
+  "timestamp": "2026-08-30T06:51:42.683672+00:00",
+  "execution_time_ms": 2.76,
   "state": {
     "incident_id": "INC-ADV-FIN-009",
     "title": "Emergency Generator Replacement Quarantined at $35,000",
@@ -128,7 +128,7 @@
       "invariant_id": "INV-06",
       "title": "Agent Loop Boundedness",
       "holds": true,
-      "detail": "all agent turn loops strictly bounded (max observed: 0 turns)",
+      "detail": "all agent turn loops strictly bounded (max observed: 2 turns)",
       "evidence": {}
     },
     {
