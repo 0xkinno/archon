@@ -23,14 +23,13 @@
 
 ### Production Deployments & Verification Endpoints
 
-| Resource | Live Endpoint | Purpose |
-| :--- | :--- | :--- |
-| **Production Web Console** | [archon-google-agent.vercel.app](https://archon-google-agent.vercel.app) | Real-time incident command center, live agent stream, campus topology |
-| **Production Backend Gateway** | [archon-1esm.onrender.com](https://archon-1esm.onrender.com) | FastAPI orchestration gateway, ADK runtime, policy enforcement |
-| **Interactive API Documentation** | [archon-1esm.onrender.com/docs](https://archon-1esm.onrender.com/docs) | OpenAPI specification and live endpoint tester |
-| **Evidence & Manifest Ledger** | [`evidence/campaign_results.json`](evidence/campaign_results.json) | 30 drill campaign runs, invariant verdicts, cryptographic hashes |
-| **Cinematic 4K Product Film** | [`docs/archon-product-film-4k.mp4`](docs/archon-product-film-4k.mp4) | 30s 4K UHD 60 FPS motion-design demonstration |
-| **Architecture Specification** | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Invariant proofs, security boundaries, and data flows |
+| Resource | Live Endpoint |
+| :--- | :--- |
+| **Production Web Console** | [archon-google-agent.vercel.app](https://archon-google-agent.vercel.app) |
+| **Production Backend Gateway** | [archon-1esm.onrender.com](https://archon-1esm.onrender.com) |
+| **Interactive API Documentation** | [archon-1esm.onrender.com/docs](https://archon-1esm.onrender.com/docs) |
+| **Evidence & Manifest Ledger** | [`evidence/campaign_results.json`](evidence/campaign_results.json) |
+| **Architecture Specification** | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
 
 Google Cloud project `archon-ece25`, region `nam5`. Primary operational data and immutable audit logs reside in Google Cloud Firestore under database-level security rules (`firestore.rules`).
 
