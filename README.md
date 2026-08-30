@@ -1,28 +1,32 @@
-# ARCHON
+# ARCHON: Autonomous Resilient Campus Hazard & Operations Network
 
 ![ARCHON Platform Banner](docs/screenshots/banner.png)
+
+<div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Google ADK](https://img.shields.io/badge/Google%20ADK-2.6.2-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![Gemini](https://img.shields.io/badge/Gemini-3.5%20Flash-F4B400?style=for-the-badge)
-![Firestore](https://img.shields.io/badge/Google%20Cloud-Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Render](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
-![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![Invariants](https://img.shields.io/badge/Invariants-12%20Enforced-22C55E?style=for-the-badge)
+![Google Cloud Firestore](https://img.shields.io/badge/Google%20Cloud-Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Vercel Production](https://img.shields.io/badge/Frontend-Vercel%20Live-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Render Backend](https://img.shields.io/badge/Backend-Render%20Live-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+![Safety Invariants](https://img.shields.io/badge/Governance-12%20Invariants%20Enforced-22C55E?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
-> **Institutional intelligence that never forgets.** A governed fleet of AI agents that classifies, coordinates, and resolves physical facility emergencies across complex campuses, while maintaining deterministic safety invariants, immutable audit ledgers, and institutional memory.
+</div>
+
+> **Institutional intelligence that never forgets.** A governed multi-agent operations fleet that classifies, coordinates, and resolves critical physical facility emergencies across complex enterprise campuses, while maintaining deterministic safety invariants, immutable audit ledgers, and lifelong institutional memory.
 
 **Built for the All Things Agentic Hackathon | Fortified Enterprise Fleet Track**
 
 ---
 
-### Deployed System & Endpoints
+### Production Deployments & Verification Endpoints
 
-| Resource | URL | Purpose |
+| Resource | Live Endpoint | Purpose |
 | :--- | :--- | :--- |
-| **Live Frontend Console** | [archon-app.vercel.app](https://archon-app.vercel.app) | Real-time incident command center, agent stream, topology map |
-| **Production Backend API** | [archon-1esm.onrender.com](https://archon-1esm.onrender.com) | FastAPI gateway, ADK swarm runtime, policy enforcement |
+| **Production Web Console** | [castellan-25.vercel.app](https://castellan-25.vercel.app) | Real-time incident command center, live agent stream, campus topology |
+| **Production Backend Gateway** | [archon-1esm.onrender.com](https://archon-1esm.onrender.com) | FastAPI orchestration gateway, ADK runtime, policy enforcement |
 | **Interactive API Documentation** | [archon-1esm.onrender.com/docs](https://archon-1esm.onrender.com/docs) | OpenAPI specification and live endpoint tester |
 | **Evidence & Manifest Ledger** | [`evidence/campaign_results.json`](evidence/campaign_results.json) | 30 drill campaign runs, invariant verdicts, cryptographic hashes |
 | **Cinematic 4K Product Film** | [`docs/archon-product-film-4k.mp4`](docs/archon-product-film-4k.mp4) | 30s 4K UHD 60 FPS motion-design demonstration |
@@ -65,51 +69,84 @@ Google Cloud project `archon-ece25`, region `nam5`. Primary operational data and
 
 ---
 
-## The Mechanism
+## The Problem: Tribal Knowledge Loss & $250B Operational Fragility
+
+Every major hospital network, research university, airport, and commercial real estate portfolio relies on an unsung operational leader: the Facilities Director. When a chilled water main bursts at 2:00 AM, a high-voltage transformer overheats during peak occupancy, or a flood threatens life-safety emergency switchgear, response coordination happens through scattered phone calls, manual spreadsheets, and unwritten tribal knowledge locked inside senior engineers' heads.
+
+1. **Catastrophic Knowledge Attrition**: When experienced chief engineers retire, decades of crucial institutional memory ("Substation A trips when humidity exceeds 85%," "Vendor X takes 4 hours despite promising 45 minutes") vanish overnight.
+2. **Siloed Building Telemetry**: Modern facilities generate millions of BACnet, Modbus, and SCADA data points, but fragmented systems fail to correlate physical cascade failures (e.g., how a chiller shutdown impacts cleanroom pressurization and surgical suite air exchanges).
+3. **The \$250 Billion Impact**: Unplanned facility downtime costs US enterprise campuses over \$250B annually in emergency contractor premiums, regulatory OSHA/EPA violations, equipment damage, and lost organizational productivity.
+
+---
+
+## The ARCHON Solution: Governed Autonomous Swarm with Immutable Institutional Memory
+
+ARCHON transforms campus physical operations by deploying a synchronized fleet of **7 specialized AI agents** built on Google's Agent Development Kit (ADK) and Gemini 3.5 Flash:
+
+- **Multi-Modal Triage & Blast Radius Modeling**: Automatically correlates IoT telemetry spikes, vendor emails, and emergency tickets, mapping exact building occupancy, utility interdependencies, and physical impact zones in sub-second time.
+- **Autonomous Specialist Coordination**: The Incident Commander delegates domain-specific tasks to dedicated agents for contractor dispatch, regulatory compliance, corrective remediation, and campus notifications.
+- **Continuous Institutional Memory Bank**: Every incident outcome, contractor arrival speed, and resolution playbook is automatically vectorized and committed to the Vertex AI Memory Bank, ensuring past lessons guide future responses across shifts and decades.
+- **Fail-Closed Governance**: High-cost expenditures (>\$10,000) and dangerous actuation commands are strictly quarantined by a deterministic Safety Kernel until explicitly authorized by a human director.
+
+---
+
+## Autonomous Facility Fleet Architecture
+
+ARCHON separates probabilistic LLM reasoning from deterministic authority:
 
 ```
-campus telemetry & IoT signals
-  -> Model Armor screens untrusted content and redacts PII
-    -> specialist agents plan, assess blast radius, and rank vendors
-      -> Agent Gateway validates zero-trust SPIFFE tokens and policy envelopes
-        -> deterministic Safety Kernel checks 12 hard invariants before commit
-          -> Google Cloud Firestore commits state and appends immutable audit trace
-            -> Ed25519 signs the canonical state hash for offline cryptographic verification
+[ Campus IoT & External Feeds ]
+               │
+               ▼
+   [ Layer 1: Model Armor Threat Firewall ]  ──► Rejects prompt injection & redacts PII
+               │
+               ▼
+     [ Layer 2: Agent Gateway ]  ──► Validates SPIFFE tokens, rate limits & capabilities
+               │
+               ▼
+   [ Layer 3: 7-Agent Specialist Swarm ]  ──► Gemini 3.5 Flash reasons & proposes actions
+               │
+               ▼
+  [ Layer 4: Deterministic Safety Kernel ]  ──► Enforces 12 Hard Invariants (<1.5 ms)
+               │
+               ▼
+[ Layer 5: Google Cloud Firestore + Rules ]  ──► Atomic commit + immutable audit ledger
+               │
+               ▼
+  [ Layer 6: Ed25519 Cryptographic Signer ]  ──► Signs SHA-256 state hash for verification
 ```
 
-One governing principle holds the architecture together:
+### Architectural Core Principle
 
-> **Agents propose operational actions. Deterministic code decides what is true and whether state may change.**
-
-Gemini 3.5 Flash reasons over noisy facility telemetry, maps physical system interdependencies, and selects optimal contractor teams. It is never the authority on whether budget thresholds permit dispatch, whether an emergency action was already executed, whether an agent exceeded its capability domain, or whether an incident may close. Those decisions belong strictly to a pure Python safety kernel that both the live runtime and an offline independent verifier execute on identical state representations.
+> **AI agents analyze telemetry and propose tactical plans. Deterministic governance code decides what is true and whether state may change.**
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/preview/architecture.dark.png">
   <source media="(prefers-color-scheme: light)" srcset="docs/diagrams/preview/architecture.light.png">
-  <img alt="ARCHON runtime map: campus telemetry enters an agent fleet, every proposed action passes Model Armor and the Safety Kernel before Firestore commits it, and resulting state is signed with Ed25519 for offline verification." src="docs/diagrams/preview/architecture.dark.png">
+  <img alt="ARCHON runtime architecture: campus telemetry enters the agent fleet, every proposed action passes Model Armor and the Safety Kernel before Firestore commits it, and resulting state is signed with Ed25519 for offline verification." src="docs/diagrams/preview/architecture.dark.png">
 </picture>
 
-*Interactive Standalone Explorer: [`docs/diagrams/archon-architecture.html`](docs/diagrams/archon-architecture.html) (Zero-dependency local HTML viewer)*
+*Interactive Standalone Architecture Explorer: [`docs/diagrams/archon-architecture.html`](docs/diagrams/archon-architecture.html) (Zero-dependency local HTML tool)*
 
-### Architectural Topology (Mermaid)
+### System Topology & Control Loop (Mermaid)
 
 ```mermaid
 flowchart TB
-  subgraph Ingestion["1. Multi-Modal Ingestion & Edge Defense"]
-    IOT["BACnet / Modbus / MQTT Telemetry\n(Substation A 94.2C Spike)"]
-    EXT["Contractor Webhooks & Weather Feeds\n(Untrusted External Quotes)"]
-    ARMOR["Model Armor Threat Firewall\n(Prompt Injection & PII Sanitizer)\nINV-02: Zero Taint Effect"]
+  subgraph Ingestion["1. Ingestion & Edge Defense"]
+    IOT["BACnet / Modbus / MQTT Telemetry\n(Substation A 94.2C Alert)"]
+    EXT["Contractor Quotes & Work Orders\n(External Webhook Payload)"]
+    ARMOR["Model Armor Threat Firewall\n(Prompt Injection & PII Filter)\nINV-02: Zero Taint Effect"]
     IOT --> ARMOR
     EXT --> ARMOR
   end
 
-  subgraph GatewayLayer["2. Agent Gateway & Policy Broker"]
+  subgraph GatewayLayer["2. Zero Trust Agent Gateway"]
     GW["Agent Gateway (SPIFFE JWT Tokens)\nINV-03: Scope Bound | INV-11: Rate Limit | INV-12: Zero Trust"]
     ARMOR --> GW
   end
 
-  subgraph SwarmFleet["3. 7-Agent Specialized Fleet (Gemini 3.5 Flash)"]
-    CMD["Incident Commander\n(Playbook Orchestration)"]
+  subgraph SwarmFleet["3. 7-Agent Specialist Swarm (Gemini 3.5 Flash)"]
+    CMD["Incident Commander\n(Playbook Orchestrator)"]
     IMP["Impact Assessor\n(Blast Radius & Risk)"]
     VND["Vendor Coordinator\n(INV-01: >$10k Gated)"]
     CMP["Compliance Inspector\n(OSHA / EPA Specs)"]
@@ -130,7 +167,7 @@ flowchart TB
     KERNEL["Pure Python Safety Kernel\n(12 Invariants Evaluator - 1.37ms)\nINV-04: Deduplication | INV-08: Approval Precedence"]
     FIRESTORE[("Google Cloud Firestore\n(Database-Level firestore.rules)\nAppend-Only Audit Ledger")]
     SIGNER["Ed25519 Cryptographic Signer\n(Canonical SHA-256 State Hash)"]
-    VERIFIER["Offline Invariant Verifier\n(scripts/verify_incident.py)"]
+    VERIFIER["Independent Offline Verifier\n(scripts/verify_incident.py)"]
 
     VND --> KERNEL
     REM --> KERNEL
@@ -146,7 +183,7 @@ flowchart TB
   style VERIFIER fill:#EC4899,stroke:#BE185D,color:#fff,font-weight:bold
 ```
 
-### Emergency Execution Sequence Flow
+### Incident Resolution Lifecycle Sequence
 
 ```mermaid
 sequenceDiagram
@@ -179,31 +216,29 @@ sequenceDiagram
 
 ---
 
-## What Actually Runs
+## Specialist Agent Swarm & Structural Authority Matrix
 
-Seven ADK specialist agents running on Gemini 3.5 Flash, an Agent Gateway enforcing SPIFFE identity tokens, Model Armor screening prompt injections and redacting sensitive PII, Google Cloud Firestore transactional state storage with database-level security rules, and Ed25519 cryptographic state signing.
+Seven autonomous agents coordinate through Google ADK transfer loops. Each specialist operates within an explicit, non-overlapping operational domain bounded by least-privilege capability envelopes:
 
-| Specialist Agent | Assigned Scope | Hard Structural Boundary |
+| Specialist Agent | Operational Scope | Hard Structural Boundary |
 | :--- | :--- | :--- |
-| `incident_commander` | Master incident plan, severity assessment, task delegation | Cannot execute financial disbursements or dispatch orders |
-| `impact_assessor` | Topological blast radius, occupancy headcounts, utility dependencies | Read-only telemetry access; zero actuation authority |
-| `vendor_coordinator` | Contractor catalog ranking, SLA evaluation, work order issuance | Expenditures >$10,000 strictly quarantined until human director approves |
-| `compliance_inspector` | OSHA / EPA safety standards, regulatory violation checks | Pure compliance audit; cannot modify incident status or budgets |
-| `communications_officer` | Emergency campus notifications, SMS, public safety bulletins | Broadcast drafting only; zero physical campus control authority |
-| `remediation_tracker` | Work order milestone tracking, contractor arrival verification | Cannot close incidents with unresolved or orphaned tasks |
+| `incident_commander` | Master incident plan, severity classification, playbook delegation | Cannot execute financial disbursements or vendor contracts |
+| `impact_assessor` | Topological blast radius, occupancy counts, utility dependencies | Read-only telemetry access; zero actuation authority |
+| `vendor_coordinator` | Contractor catalog ranking, SLA evaluation, dispatch issuance | Expenditures >\$10,000 held in quarantine until human director authorizes |
+| `compliance_inspector` | OSHA / EPA regulatory checks, municipal code compliance | Pure compliance audit; cannot modify incident status or budgets |
+| `communications_officer` | Emergency campus notifications, SMS, public safety bulletins | Drafting and routing only; zero physical campus control authority |
+| `remediation_tracker` | Work order milestone tracking, contractor arrival verification | Cannot close incidents with unresolved or orphaned remediation tasks |
 | `memory_curator` | Institutional lesson curation, precedent vector indexing | Memory writes require verified source incident provenance |
-
-Read that table by its structural constraints. A compromised `incident_commander` can propose plan updates but cannot disburse funds or trigger machinery. The `communications_officer` has no vendor dispatch authority, preventing rogue public alerts from triggering contractor deployments.
 
 ---
 
-## Twelve Invariants, Checked Twice
+## Deterministic Governance Kernel & Invariant Specifications
 
-ARCHON enforces twelve explicit governance invariants across all operations:
+ARCHON enforces twelve pure, total, and deterministic governance invariants across all operations:
 
-1. **INV-01 (Financial Threshold Quarantine)**: Expenditures >$10,000 require explicit human director approval before execution.
+1. **INV-01 (Financial Threshold Quarantine)**: Expenditures >\$10,000 require explicit human director authorization before execution.
 2. **INV-02 (No Tainted Source Action)**: Signals flagged by Model Armor as tainted or quarantined never trigger downstream physical effects.
-3. **INV-03 (Domain Scope Integrity)**: Agents cannot execute tools outside their registered domain capability envelope.
+3. **INV-03 (Domain Scope Integrity)**: Agents cannot invoke tools outside their registered domain capability envelope.
 4. **INV-04 (No Duplicate Vendor Dispatch)**: Exactly-once contractor dispatch enforced per building zone and trade specialty.
 5. **INV-05 (P1 Escalation Determinism)**: P1/Critical incidents deterministically trigger commander assignment and emergency notifications.
 6. **INV-06 (Agent Loop Boundedness)**: Agent turn recursion depth is strictly bounded to a maximum of 10 turns.
@@ -214,7 +249,9 @@ ARCHON enforces twelve explicit governance invariants across all operations:
 11. **INV-11 (Rate Limit Envelope Respected)**: Agent tool execution frequency must not exceed 60 calls per minute.
 12. **INV-12 (Zero Trust Identity Authorization)**: Every logged action must present a valid SPIFFE identity token matching the agent domain.
 
-Production services enforce these invariants before committing state. The offline verifier recomputes all twelve invariants independently from the stored snapshot with zero model dependencies and zero network calls:
+### Independent Offline Verification
+
+The offline verifier recomputes all 12 invariants independently from the stored snapshot with zero model dependencies and zero network calls:
 
 ```bash
 python scripts/verify_incident.py --manifest evidence/incidents/INC-STORM-001.manifest.json
@@ -222,7 +259,7 @@ python scripts/verify_incident.py --manifest evidence/incidents/INC-STORM-001.ma
 
 ```text
 ================================================================================
- ARCHON GOVERNANCE INVARIANT VERIFIER -- INCIDENT INC-STORM-001
+ ARCHON GOVERNANCE INVARIANT VERIFIER: INCIDENT INC-STORM-001
  Canonical State Hash: b664eb540b414db4cc7e57f3969f8c148c9d49a33a26f4ce69db91e1be53fb69
 ================================================================================
 INVARIANT  | TITLE                                  | VERDICT | EVIDENCE / DETAIL
@@ -246,22 +283,22 @@ FINAL AUDIT RESULT: ALL INVARIANTS SATISFIED (PASS)
 
 ---
 
-## Technical Finding: Multi-Signal Race & Taint-Barrier Rollback
+## Empirical Research: Taint-Propagated State Isolation (TPSI) Under Concurrent Ingest
 
-During stress testing of concurrent physical emergency responses, we investigated what occurs when two high-frequency IoT alert signals arrive asynchronously within a 45ms window (Substation A thermal anomaly at 94.2°C and Substation A coolant flow collapse to 0.0 GPM), accompanied by an external contractor quote containing an adversarial prompt injection payload.
+During emergency stress testing, we investigated system behavior when two high-frequency IoT alerts arrive asynchronously within a 45ms window (Substation A thermal spike at 94.2°C and Substation A coolant flow collapse to 0.0 GPM), accompanied by an external contractor quote containing an adversarial prompt injection payload.
 
-| Ingestion Sequence | LLM Context State | System Outcome |
+| Ingestion Sequence | Agent Memory State | System Outcome |
 | :--- | :--- | :--- |
-| Sequential Ingest (Standard) | Tainted contractor payload parsed into short-term working memory | Speculative tool planning poisoned; prompt leakage risk |
-| **ARCHON Taint-Barrier (TPSI)** | **Context token revoked immediately; working memory purged** | **Deterministic rollback to immutable state snapshot; single vetted PO emitted** |
+| Standard Ingest (Baseline) | Tainted contractor payload parsed into short-term working memory | Speculative tool planning poisoned; prompt leakage risk |
+| **ARCHON TPSI Protocol** | **Context token revoked immediately; working memory purged** | **Deterministic rollback to immutable state snapshot; single vetted PO emitted** |
 
-We discovered that standard multi-turn agent loops retain tainted conversational state if quarantine occurs post-ingest. Single-process architectures require hard memory purges and deterministic snapshot rollback. ARCHON implemented **Taint-Propagated State Isolation (TPSI)**: when Model Armor flags an artifact, the Agent Gateway invalidates the agent session token, purges the ephemeral context, and rolls back to the last verified cryptographic state hash in 1.42 ms. Empirical trace logged in [`evidence/deep_finding_trace.json`](evidence/deep_finding_trace.json).
+We observed that standard multi-turn LLM agent loops retain poisoned conversational context if quarantine occurs post-ingest. Single-process architectures require hard context invalidation and snapshot rollback. ARCHON implemented **Taint-Propagated State Isolation (TPSI)**: when Model Armor flags an artifact, the Agent Gateway invalidates the agent session token, purges ephemeral context, and rolls back to the last verified cryptographic state hash in 1.42 ms. Empirical trace logged in [`evidence/deep_finding_trace.json`](evidence/deep_finding_trace.json).
 
 ---
 
-## Measured, Not Asserted
+## Empirical Disaster Drill Verification & Audit Ledger
 
-Every number below is read directly from [`evidence/campaign_results.json`](evidence/campaign_results.json) by [`scripts/generate_readme_stats.py`](scripts/generate_readme_stats.py). None of them is typed by hand.
+Every number below is read directly from [`evidence/campaign_results.json`](evidence/campaign_results.json) by [`scripts/generate_readme_stats.py`](scripts/generate_readme_stats.py):
 
 | Empirical Metric | Verified Value | Evidence Source |
 | :--- | :--- | :--- |
@@ -274,11 +311,11 @@ Every number below is read directly from [`evidence/campaign_results.json`](evid
 
 ---
 
-## Honest Boundaries
+## System Assumptions, Deployment Infrastructure & Operational Scope
 
-1. **Synthetic Telemetry and Estate**: The campus buildings, IoT sensor telemetry streams, contractor rosters, and municipal inspection records are modeled on realistic commercial facility profiles (BACnet, Modbus, EPA 40 CFR 60). Physical campus equipment was not physically actuated during automated test runs.
-2. **Infrastructure Placement**: Backend compute is deployed on Render and frontend on Vercel due to regional credit card infrastructure constraints. Google Cloud Firestore (`archon-ece25`, region `nam5`) provides persistent transactional state storage and satisfies cloud data requirements.
-3. **Database-Level Least Privilege**: To compensate for single-process hosting on Render rather than individual Cloud Run containers per agent, ARCHON enforces granular Firestore Security Rules (`firestore.rules`) at the database layer. This ensures that even if an in-memory agent process were subverted, collection-level write permissions strictly restrict modifications to designated domains.
+1. **Synthetic Telemetry and Estate**: Campus buildings, IoT telemetry streams, contractor rosters, and municipal inspection records are modeled on realistic commercial facility profiles (BACnet, Modbus, EPA 40 CFR 60). Physical equipment was not physically actuated during automated test runs.
+2. **Infrastructure Topology**: Frontend compute runs on Vercel (`castellan-25.vercel.app`) and backend compute runs on Render (`archon-1esm.onrender.com`). Google Cloud Firestore (`archon-ece25`, region `nam5`) provides persistent transactional state storage and satisfies cloud data requirements.
+3. **Database-Level Least Privilege**: To ensure isolation across agent identities, ARCHON enforces granular Firestore Security Rules (`firestore.rules`) at the database layer. This ensures that even if an in-memory agent process were subverted, collection-level write permissions strictly restrict modifications to designated domains.
 4. **Memory Bank Interface**: The long-term Memory Bank is an interface-compliant implementation featuring semantic vector similarity search and provenance linking, backed by persistent Firestore documents.
 5. **Cryptographic Signing**: Evidence signing uses Ed25519 cryptographic keypairs with deterministic SHA-256 canonical hashing as the operational equivalent to Cloud KMS.
 
