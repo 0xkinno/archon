@@ -75,7 +75,34 @@ class ArchonMemoryService:
                 "content": "Cascade Industrial Plumbing (VND-001) maintains high-pressure dewatering rigs on 24/7 standby. Average arrival time on P1 water breaches is 1.2 hours. Dispatcher Sarah Jenkins possesses direct access codes to Building C basement mechanical gates.",
                 "created_at": "2026-03-01T10:00:00",
                 "importance": 0.90,
-                "tags": ["cascade", "plumbing", "p1_response", "VND-001"]
+                "tags": ["cascade", "plumbing", "p1_response", "VND-001", "dewatering", "pump"]
+            },
+            {
+                "memory_id": "MEM-007",
+                "building_id": "SUBSTATION-A",
+                "category": "storm_response_precedent",
+                "content": "Substation A basement sump requires dual 4-inch high-capacity submersible pumps during severe storm rainfall exceeding 35mm/hr. Precedent from August 2026 storm: Deploying Apex Dewatering Solutions (VND-HYDRO-01) with $14,500 emergency industrial pumping rig prevented switchgear flood damage. Sump drain valve V-202 must be opened within 15 minutes of water level reaching 18 inches.",
+                "created_at": "2026-08-30T04:30:00",
+                "importance": 0.99,
+                "tags": ["substation-a", "substation", "pump", "pumps", "dewatering", "apex", "storm", "flood", "sump", "switchgear"]
+            },
+            {
+                "memory_id": "MEM-008",
+                "building_id": "SUBSTATION-B",
+                "category": "electrical_thermal_precedent",
+                "content": "Substation B main step-down transformer cooling radiators require secondary auxiliary fan banks activated whenever ambient temperature exceeds 92F and telemetry detects a thermal spike above 90C. Previous incident: Sparks High Voltage (VND-002) completed radiator backflush in 42 minutes, restoring thermal equilibrium at 68C.",
+                "created_at": "2026-08-30T04:45:00",
+                "importance": 0.96,
+                "tags": ["substation-b", "substation", "transformer", "thermal", "cooling", "heat", "overheat", "fan", "sparks"]
+            },
+            {
+                "memory_id": "MEM-009",
+                "building_id": "BLDG-C",
+                "category": "hydraulic_dewatering",
+                "content": "Building C sub-basement sump pump station has an automatic dual-float switch that can stick if debris accumulates. In heavy downpours, manual verification of pump starter relay R-12 is required to prevent water from reaching the main backup generator transfer switch.",
+                "created_at": "2026-04-12T09:15:00",
+                "importance": 0.94,
+                "tags": ["pump", "sump_pump", "dewatering", "water_extraction", "generator", "relay", "BLDG-C"]
             }
         ]
         self._memories.extend(initial_seeds)
@@ -100,39 +127,57 @@ class ArchonMemoryService:
             "content": lesson,
             "created_at": datetime.utcnow().isoformat(),
             "importance": importance,
-            "tags": [t.lower() for t in re.findall(r"\b[A-Za-z0-9_-]{3,}\b", f"{lesson} {building_id or ''} {vendor_id or ''}")]
+            "tags": [t.lower() for t in re.findall(r"\b[A-Za-z0-9_-]{2,}\b", f"{lesson} {building_id or ''} {vendor_id or ''}")]
         }
         self._memories.append(entry)
         logger.info(f"Stored institutional memory: {memory_id} for incident: {incident_id}")
         return entry
 
-    async def search_precedent(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
+    async def search_precedent(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
         """Searches institutional memory for relevant precedents using keyword & semantic scoring."""
-        query_words = set(re.findall(r"\b[A-Za-z0-9_-]{2,}\b", query.lower()))
+        if not query or not query.strip():
+            return sorted(self._memories, key=lambda x: x.get("importance", 0), reverse=True)[:limit]
+
+        query_clean = query.lower()
+        query_words = set(re.findall(r"\b[A-Za-z0-9_-]{2,}\b", query_clean))
         scored_results = []
 
         for mem in self._memories:
-            content_words = set(re.findall(r"\b[A-Za-z0-9_-]{2,}\b", mem["content"].lower()))
-            tag_words = set(mem.get("tags", []))
+            content_lower = mem["content"].lower()
+            tags_lower = [t.lower() for t in mem.get("tags", [])]
+            content_words = set(re.findall(r"\b[A-Za-z0-9_-]{2,}\b", content_lower))
+            all_words = content_words.union(set(tags_lower))
             
-            # Match intersection
-            overlap = query_words.intersection(content_words.union(tag_words))
+            score = 0.0
+            # Direct exact phrase match in content
+            if query_clean in content_lower:
+                score += 0.85
+
+            # Word overlaps
+            overlap = query_words.intersection(all_words)
             if overlap:
-                score = (len(overlap) / max(len(query_words), 1)) * mem.get("importance", 0.8)
-                scored_results.append((score, mem))
-            elif any(w in mem["content"].lower() for w in query_words):
-                scored_results.append((0.5 * mem.get("importance", 0.8), mem))
+                score += (len(overlap) / max(len(query_words), 1)) * 0.75
+            
+            # Partial substring matches
+            for qw in query_words:
+                if qw in content_lower or any(qw in t for t in tags_lower):
+                    score += 0.25
+
+            if score > 0:
+                final_score = min(round(score * mem.get("importance", 0.8), 3), 1.0)
+                scored_results.append((final_score, mem))
 
         # Sort by relevance score descending
         scored_results.sort(key=lambda x: x[0], reverse=True)
-        results = [dict(item[1], relevance_score=round(item[0], 3)) for item in scored_results[:limit]]
+        results = [dict(item[1], relevance_score=item[0]) for item in scored_results[:limit]]
         
-        # If no specific keyword matched, return highest importance general memories
+        # If no specific keyword matched, return top general memories
         if not results:
             general = sorted(self._memories, key=lambda x: x.get("importance", 0), reverse=True)[:limit]
-            results = [dict(m, relevance_score=0.4) for m in general]
+            results = [dict(m, relevance_score=0.5) for m in general]
 
         return results
+
 
     async def update_vendor_scorecard(self, vendor_id: str, incident_id: str, metrics: Dict[str, Any]) -> Dict[str, Any]:
         """Updates a vendor's performance scorecard in institutional memory."""

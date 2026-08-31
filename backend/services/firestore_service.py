@@ -126,8 +126,237 @@ class FirestoreService:
                 except Exception as ex:
                     logger.debug(f"Firestore playbook seed sync notice: {ex}")
 
+        # Seed Active Demo Incidents
+        demo_incidents = [
+            {
+                "id": "INC-STORM-001",
+                "title": "Severe Storm & Substation A Flood Warning",
+                "description": "Telemetry alert: Heavy rainfall (42mm/hr) detected. Substation A basement water sensor triggered at 18 inches. Risk of 480V switchgear water ingress and campus cooling loop cross-tie loss.",
+                "severity": "P1",
+                "status": "investigating",
+                "incident_type": "water_main_break",
+                "affected_buildings": ["SUBSTATION-A", "BLDG-C", "BLDG-H"],
+                "assigned_agents": ["incident_commander", "impact_assessor", "vendor_coordinator", "compliance_inspector", "communications_officer", "remediation_tracker", "memory_curator"],
+                "playbook_id": "PB-WATER-001",
+                "created_at": "2026-08-31T20:00:00",
+                "updated_at": "2026-08-31T20:05:00",
+            },
+            {
+                "id": "INC-XFRM-002",
+                "title": "Substation B Main Transformer Thermal Anomaly",
+                "description": "Telemetry alert: Step-down transformer T-02 oil temperature reached 94.2C with coolant pump stall. Secondary fan banks required.",
+                "severity": "P2",
+                "status": "mitigating",
+                "incident_type": "electrical_failure",
+                "affected_buildings": ["SUBSTATION-B", "BLDG-F"],
+                "assigned_agents": ["incident_commander", "vendor_coordinator", "remediation_tracker"],
+                "playbook_id": "PB-ELEC-002",
+                "created_at": "2026-08-31T19:15:00",
+                "updated_at": "2026-08-31T19:30:00",
+            },
+            {
+                "id": "INC-ADV-INJ-003",
+                "title": "Adversarial Contractor Quote Quarantine & Rollback",
+                "description": "Model Armor threat firewall detected and quarantined prompt injection in external quotation webhook. State snapshot restored in 0.62ms.",
+                "severity": "P3",
+                "status": "resolved",
+                "incident_type": "security_quarantine",
+                "affected_buildings": ["BLDG-F"],
+                "assigned_agents": ["incident_commander", "vendor_coordinator"],
+                "playbook_id": "PB-SEC-001",
+                "created_at": "2026-08-31T18:00:00",
+                "updated_at": "2026-08-31T18:05:00",
+            }
+        ]
+        for inc in demo_incidents:
+            self._incidents[inc["id"]] = inc
+
+        # Seed Pending & Historic Approvals
+        demo_approvals = [
+            {
+                "approval_id": "APP-DIR-001",
+                "incident_id": "INC-STORM-001",
+                "agent_id": "spiffe://archon.internal/agent/vendor_coordinator",
+                "tool_name": "dispatch_vendor",
+                "action_type": "Emergency Industrial Dewatering Dispatch",
+                "description": "Authorize $14,500 emergency deployment of Apex Dewatering dual 4-inch submersible pump rig for Substation A basement flood.",
+                "estimated_cost": 14500.0,
+                "status": "pending",
+                "required_role": "facilities_director",
+                "created_at": "2026-08-31T20:05:00",
+            },
+            {
+                "approval_id": "APP-DIR-002",
+                "incident_id": "INC-XFRM-002",
+                "agent_id": "spiffe://archon.internal/agent/vendor_coordinator",
+                "tool_name": "dispatch_vendor",
+                "action_type": "High Voltage Transformer Repair",
+                "description": "Authorize Sparks High Voltage emergency radiator backflush and thermal recovery ($6,200).",
+                "estimated_cost": 6200.0,
+                "status": "approved",
+                "required_role": "facilities_director",
+                "decision_by": "Director of Campus Facilities",
+                "decision_notes": "Approved under emergency equipment preservation authority.",
+                "created_at": "2026-08-31T19:20:00",
+                "resolved_at": "2026-08-31T19:22:00",
+            }
+        ]
+        for appr in demo_approvals:
+            self._approvals[appr["approval_id"]] = appr
+
+        # Seed Dispatches
+        demo_dispatches = [
+            {
+                "dispatch_id": "DSP-PUMP-001",
+                "incident_id": "INC-STORM-001",
+                "vendor_id": "VND-HYDRO-01",
+                "vendor_name": "Apex Dewatering Solutions",
+                "specialty": "commercial_pumping",
+                "building_id": "SUBSTATION-A",
+                "estimated_cost": 14500.0,
+                "status": "pending_approval",
+                "estimated_arrival_hours": 1.2,
+                "description": "Deploy dual 4-inch high-capacity submersible pumps to Substation A basement sump.",
+                "po_number": "PO-PENDING-DIR-AUTH",
+                "dispatched_at": "2026-08-31T20:05:00",
+            },
+            {
+                "dispatch_id": "DSP-ELEC-002",
+                "incident_id": "INC-XFRM-002",
+                "vendor_id": "VND-002",
+                "vendor_name": "Sparks High Voltage",
+                "specialty": "high_voltage_transformer",
+                "building_id": "SUBSTATION-B",
+                "estimated_cost": 6200.0,
+                "status": "dispatched",
+                "estimated_arrival_hours": 0.8,
+                "description": "Radiator backflush and secondary cooling circuit inspection.",
+                "po_number": "PO-2026-0831-ELEC",
+                "dispatched_at": "2026-08-31T19:22:00",
+            }
+        ]
+        for d in demo_dispatches:
+            self._dispatches[d["dispatch_id"]] = d
+
+        # Seed Remediation Tasks
+        demo_tasks = [
+            {
+                "task_id": "TSK-SUMP-01",
+                "incident_id": "INC-STORM-001",
+                "title": "Deploy auxiliary submersible pumps to Substation A sump",
+                "description": "Position dual 4-inch pumps and connect discharge hoses to stormwater main.",
+                "status": "in_progress",
+                "assignee": "Apex Dewatering / Cascade",
+                "deadline": "2026-08-31T22:00:00",
+            },
+            {
+                "task_id": "TSK-BERM-02",
+                "incident_id": "INC-STORM-001",
+                "title": "Inspect and reinforce waterproof perimeter berms",
+                "description": "Verify sandbag barriers and seal east wall conduit penetrations.",
+                "status": "completed",
+                "assignee": "Facilities Engineering",
+                "deadline": "2026-08-31T20:30:00",
+            },
+            {
+                "task_id": "TSK-NICU-03",
+                "incident_id": "INC-STORM-001",
+                "title": "Monitor Hospital NICU Zone 3 chiller cross-tie pressure",
+                "description": "Ensure manual bypass valve V-104 is operational and loop temperature stays at 68F.",
+                "status": "in_progress",
+                "assignee": "Clinical Facilities Lead",
+                "deadline": "2026-08-31T21:30:00",
+            }
+        ]
+        for t in demo_tasks:
+            self._tasks[t["task_id"]] = t
+
+        # Seed Multi-Agent Reasoning Trace Spans for INC-STORM-001
+        demo_spans = [
+            {
+                "span_id": "SPN-01-CMD",
+                "trace_id": "TRC-INC-STORM-001",
+                "agent_id": "spiffe://archon.internal/agent/incident_commander",
+                "action": "triage_and_classify",
+                "tool_name": "classify_incident",
+                "status": "completed",
+                "start_time": "2026-08-31T20:00:00.100Z",
+                "end_time": "2026-08-31T20:00:00.650Z",
+                "decision_rationale": "Classified telemetry spike (42mm/hr rainfall, 18in sump level) as P1 Critical. Activated PB-WATER-001.",
+            },
+            {
+                "span_id": "SPN-02-IMP",
+                "trace_id": "TRC-INC-STORM-001",
+                "agent_id": "spiffe://archon.internal/agent/impact_assessor",
+                "action": "map_blast_radius",
+                "tool_name": "map_dependencies",
+                "status": "completed",
+                "start_time": "2026-08-31T20:00:00.660Z",
+                "end_time": "2026-08-31T20:00:01.200Z",
+                "decision_rationale": "Mapped topological dependencies: Substation A feeds Building C hydraulic pump room and Hospital NICU chilled water cross-tie.",
+            },
+            {
+                "span_id": "SPN-03-VND",
+                "trace_id": "TRC-INC-STORM-001",
+                "agent_id": "spiffe://archon.internal/agent/vendor_coordinator",
+                "action": "rank_and_dispatch_contractor",
+                "tool_name": "dispatch_vendor",
+                "status": "quarantined_approval",
+                "start_time": "2026-08-31T20:00:01.210Z",
+                "end_time": "2026-08-31T20:00:01.900Z",
+                "decision_rationale": "Selected Apex Dewatering ($14,500, ETA 1.2 hrs). Cost > $10k held by Safety Kernel (INV-01) for Director authorization.",
+            },
+            {
+                "span_id": "SPN-04-CMP",
+                "trace_id": "TRC-INC-STORM-001",
+                "agent_id": "spiffe://archon.internal/agent/compliance_inspector",
+                "action": "verify_environmental_specs",
+                "tool_name": "flag_violations",
+                "status": "completed",
+                "start_time": "2026-08-31T20:00:01.910Z",
+                "end_time": "2026-08-31T20:00:02.400Z",
+                "decision_rationale": "Cross-referenced EPA 40 CFR 60 stormwater rules and OSHA 1910.303 electrical wet-location clearances. Zero hazardous violations.",
+            },
+            {
+                "span_id": "SPN-05-COM",
+                "trace_id": "TRC-INC-STORM-001",
+                "agent_id": "spiffe://archon.internal/agent/communications_officer",
+                "action": "draft_emergency_advisory",
+                "tool_name": "route_by_severity",
+                "status": "completed",
+                "start_time": "2026-08-31T20:00:02.410Z",
+                "end_time": "2026-08-31T20:00:02.950Z",
+                "decision_rationale": "Dispatched targeted SMS and operational push alert to Facilities Director, Hospital Chief Engineer, and On-Call Electricians.",
+            },
+            {
+                "span_id": "SPN-06-REM",
+                "trace_id": "TRC-INC-STORM-001",
+                "agent_id": "spiffe://archon.internal/agent/remediation_tracker",
+                "action": "track_work_orders",
+                "tool_name": "create_task",
+                "status": "completed",
+                "start_time": "2026-08-31T20:00:02.960Z",
+                "end_time": "2026-08-31T20:00:03.500Z",
+                "decision_rationale": "Created 3 corrective tasks: sump pump positioning, berm sandbag inspection, and NICU chiller cross-tie monitoring.",
+            },
+            {
+                "span_id": "SPN-07-MEM",
+                "trace_id": "TRC-INC-STORM-001",
+                "agent_id": "spiffe://archon.internal/agent/memory_curator",
+                "action": "curate_institutional_lesson",
+                "tool_name": "store_lesson",
+                "status": "completed",
+                "start_time": "2026-08-31T20:00:03.510Z",
+                "end_time": "2026-08-31T20:00:04.100Z",
+                "decision_rationale": "Committed precedent MEM-007 to Vertex AI Memory Bank with verified source incident ID and outcome metrics.",
+            }
+        ]
+        for s in demo_spans:
+            self._spans[s["span_id"]] = s
+
         logger.info("Loaded seed datasets into memory store and live Firestore.")
         self._initialized = True
+
 
     # ------------------ Incidents ------------------
     async def create_incident(self, incident: Incident) -> Incident:
